@@ -40,20 +40,22 @@ Filters and tags
     - a special ruby -n program that colorizes
     - sed to filter by context and project
     - something to sort by priority
-    - can sort on created date using git gem and git blame
-
+    - just a straight grep or sed filter
   Tags
     - no special syntax. you just come up with your own
     - colorized if in config
     - same with priority. priority is just a another tag 
       - !!! is not special, but defined 
       http://code.dunae.ca/css_parser/
+    - colorizing syntax shouldn't be css, but just /regex/ COLOR
 
   Sort order 
     - do we really need sort order? no. user can just reorder by ed commands
     - things like !!! should only be used for colorization
 
-    
+Done tasks
+
+  Come up with a tool later. Don't need a done.txt file. Just a program that compiles a list of done tasks from git repo.
 
 Git:
   
