@@ -47,7 +47,12 @@ Filters and tags
     - colorized if in config
     - same with priority. priority is just a another tag 
       - !!! is not special, but defined 
-  Sort order config
+      http://code.dunae.ca/css_parser/
+
+  Sort order 
+    - do we really need sort order? no. user can just reorder by ed commands
+    - things like !!! should only be used for colorization
+
     
 
 Git:
