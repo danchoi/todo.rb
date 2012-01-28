@@ -1,3 +1,7 @@
 
 
 ~/.rvm/gems/ruby-1.9.2-p290/gems/highline-1.6.9/test
+
+
+Allow configuring git hook before and after any command, so that todo is synced with a repo somewhere.
+
