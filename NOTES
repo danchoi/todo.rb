@@ -5,3 +5,12 @@
 
 Allow configuring git hook before and after any command, so that todo is synced with a repo somewhere.
 
+Priorities: mark with number of !
+Tags: mark with .tag (think css classes)
+
+Use a css like stylesheet in config to choose colors
+
+No difference between context and project
+
+To edit a task, use ed. I don't want the screen context to be replaced with a full screen editor.
+
