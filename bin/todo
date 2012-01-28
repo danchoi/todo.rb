@@ -31,18 +31,10 @@ class Todo
     @todo_file = @opts[:todo_file]
   end
 
-  def add task
-    File.open(todo_file, 'a') {|f| f.puts task}
-  end
-
-  def ls
-    exec "cat -n #{todo_file}"
-  end
-
-  def rm task_number
+  def ed_command command
     IO.popen("ed #{todo_file}", 'w') {|pipe|
       script = <<END
-#{task_number}d
+#{command}
 wq
 END
       pipe.puts script
@@ -55,5 +47,5 @@ end
 
 t = Todo.new
 command = ARGV.shift
-t.send command, *ARGV
+t.ed_command command, *ARGV
 

@@ -1,6 +1,4 @@
 test
 Hello [33mworld[0m
 Hello [33mworld[0m
-[]
-[]
 buy some milk

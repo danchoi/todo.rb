@@ -29,6 +29,7 @@ Instead of writing wrappers around  ed commands, why not just forward them direc
   todo 3c [text] # => change task 3
   todo 3i [text] # => insert  a task before 3
   todo '3s/test/test/'
+  todo ,n # => show numbered tasks
 
 etc.
 
