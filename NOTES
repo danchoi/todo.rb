@@ -14,3 +14,14 @@ No difference between context and project
 
 To edit a task, use ed. I don't want the screen context to be replaced with a full screen editor.
 
+
+colors in shell
+http://codesnippets.joyent.com/posts/show/1517
+
+put a tag colorizer in a different program and exec it with ruby -n
+
+  This reads the config and sees the colors each tag should be
+
+
+
+
