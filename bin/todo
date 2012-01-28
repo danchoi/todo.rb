@@ -4,7 +4,7 @@ require 'optparse'
 require 'highline'
 
 t = HighLine.new(STDIN, STDOUT)
-# t.say "Hello <%=color 'world', YELLOW%>"
+# t.say "Hello <%=color 'world', YELLOW%>" # TODO use this later maybe
 
 cmd = File.basename __FILE__
 
@@ -31,7 +31,7 @@ class Todo
 
   def ed_command command, *input_text
     text = input_text.empty? ? nil : "\n#{input_text.join(' ')}\n."
-    IO.popen("ed #{todo_file}", 'w') {|pipe|
+    IO.popen("ed -s #{todo_file}", 'w') {|pipe|
       script = <<END
 #{command}#{text}
 wq
