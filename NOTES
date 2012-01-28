@@ -33,6 +33,15 @@ Instead of writing wrappers around  ed commands, why not just forward them direc
 
 etc.
 
+
+Filters and tags
+
+  Filters are implemented by piping cat -n todolistfile to 
+    - a special ruby -n program that colorizes
+    - sed to filter by context and project
+    - something to sort by priority
+    - can sort on created date using git gem and git blame
+
 Git:
   
   git init
