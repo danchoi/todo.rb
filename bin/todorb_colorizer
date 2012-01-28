@@ -1,5 +1,22 @@
 #!/usr/bin/env ruby
 require 'highline'
-t = HighLine.new(STDIN, STDOUT)
-s = ($_ || '').chomp
-t.say %Q|<%=color "#{s}", YELLOW%>|  
+
+strip_word = ARGV.first
+context_color = 'CYAN'
+project_color = 'RED'
+
+while STDIN.gets
+  t = HighLine.new(STDIN, STDOUT)
+  s = ($_ || '').chomp
+  s.gsub!(strip_word, '') if strip_word
+
+  # color @contexts and +projects
+  s.gsub!(/@\w+/) {|m|
+    "<%= color '#{m}', #{context_color} %>"
+  }
+  s.gsub!(/\+\w+/) {|m|
+    "<%= color '#{m}', #{project_color} %>"
+  }
+  
+  t.say s
+end

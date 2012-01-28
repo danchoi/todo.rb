@@ -11,6 +11,7 @@ op.parse!
 
 class Todo
   attr_accessor :todo_file
+  attr_accessor :colorizer
 
   def initialize(opts={})
     # TODO may read from .todorc
@@ -19,6 +20,7 @@ class Todo
       todo_file: 'todo.txt',
       done_file: 'done.txt'
     }
+    @colorizer = 'todorb_colorizer'
     @opts = defaults.merge opts
     @todo_file = @opts[:todo_file]
   end
@@ -37,11 +39,11 @@ END
   end
 
   def catn
-    exec "cat -n #{todo_file}"
+    exec "cat -n #{todo_file} | #{colorizer}"
   end
 
   def filter context_or_project
-    exec "cat -n #{todo_file} | grep '#{context_or_project}\\>'"
+    exec "cat -n #{todo_file} | grep '#{context_or_project}\\>' | #{colorizer} #{context_or_project}"
   end
 end
 
