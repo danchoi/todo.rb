@@ -42,6 +42,14 @@ Filters and tags
     - something to sort by priority
     - can sort on created date using git gem and git blame
 
+  Tags
+    - no special syntax. you just come up with your own
+    - colorized if in config
+    - same with priority. priority is just a another tag 
+      - !!! is not special, but defined 
+  Sort order config
+    
+
 Git:
   
   git init
