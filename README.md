@@ -1,5 +1,7 @@
 # todo.rb
 
+**NOTE** this is a work in progress. Not meant yet to be a working tool.
+
 A lightweight command line todo list application, inspired by
 [todo.txt][todo.txt] and written with Ruby.
 
