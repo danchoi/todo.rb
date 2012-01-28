@@ -1,0 +1,49 @@
+[choi power~/p/todorb]$ todo ,n
+Hello world
+85
+1       test
+2       Hello world
+3       Hello world
+4       buy some milk
+5       first task
+6       another line
+85
+[choi power~/p/todorb]$ fg
+vim NOTES
+
+[2]+  Stopped                 vim NOTES
+[choi power~/p/todorb]$ todo ,n
+85
+1       test
+2       Hello world
+3       Hello world
+4       buy some milk
+5       first task
+6       another line
+85
+[choi power~/p/todorb]$ todo 1c test changed
+85
+93
+[choi power~/p/todorb]$ todo ,n
+93
+1       test changed
+2       Hello world
+3       Hello world
+4       buy some milk
+5       first task
+6       another line
+93
+[choi power~/p/todorb]$ todo 1s/ch/sh/
+93
+93
+[choi power~/p/todorb]$ todo ,n
+93
+1       test shanged
+2       Hello world
+3       Hello world
+4       buy some milk
+5       first task
+6       another line
+93
+[
+

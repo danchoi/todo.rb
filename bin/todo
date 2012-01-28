@@ -4,7 +4,7 @@ require 'optparse'
 require 'highline'
 
 t = HighLine.new(STDIN, STDOUT)
-t.say "Hello <%=color 'world', YELLOW%>"
+# t.say "Hello <%=color 'world', YELLOW%>"
 
 cmd = File.basename __FILE__
 
@@ -14,8 +14,6 @@ op = OptionParser.new {|o|
   o.separator ""
 }
 op.parse!
-
-puts "ARGV: #{ARGV.inspect}"
 
 class Todo
   attr_accessor :todo_file
@@ -38,9 +36,7 @@ class Todo
 #{command}#{text}
 wq
 END
-      puts "SCRIPT"
-      puts script
-      puts 
+      #puts script
       pipe.puts script
       pipe.close
     }
