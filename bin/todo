@@ -27,7 +27,7 @@ class Todo
       todo_file: 'todo.txt',
       done_file: 'done.txt'
     }
-    @opts =defaults.merge opts
+    @opts = defaults.merge opts
     @todo_file = @opts[:todo_file]
   end
 
