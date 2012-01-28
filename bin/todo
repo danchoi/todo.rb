@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'highline'
+
+t = HighLine.new(STDIN, STDOUT)
+t.say "Hello <%=color 'world', YELLOW%>"
+
+cmd = File.basename __FILE__
+
+opts = {}
+op = OptionParser.new {|o|
+  o.banner = "Usage: #{cmd} [options and args]"
+  o.separator ""
+}
+op.parse!
+
+puts "ARGV: #{ARGV.inspect}"
+
+class Todo
+  attr_accessor :todo_file
+
+  def initialize(opts={})
+    # TODO may read from .todorc
+
+    defaults = { 
+      todo_file: 'todo.txt',
+      done_file: 'done.txt'
+    }
+    @opts =defaults.merge opts
+    @todo_file = @opts[:todo_file]
+  end
+
+  def add task
+    File.open(todo_file, 'a') {|f| f.puts task}
+  end
+
+  def ls
+    exec "cat -n #{todo_file}"
+  end
+
+  def rm task_number
+    IO.popen("ed #{todo_file}", 'w') {|pipe|
+      script = <<END
+#{task_number}d
+wq
+END
+      pipe.puts script
+      pipe.close
+    }
+  end
+end
+
+
+
+t = Todo.new
+command = ARGV.shift
+t.send command, *ARGV
+
