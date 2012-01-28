@@ -31,8 +31,14 @@ Instead of writing wrappers around  ed commands, why not just forward them direc
   todo 3s/test/blah/
   todo ,n # => show numbered tasks
 
-etc.
+  todo a reply to customer X +project1
+  todo a buy some carrots  @centralsq
 
+  # to filter
+
+  todo @cambridgeport # => lists all tasks @cambridgeport
+
+etc.
 
 Filters and tags
 
@@ -42,7 +48,8 @@ Filters and tags
     - something to sort by priority
     - just a straight grep or sed filter
   Tags
-    - no special syntax. you just come up with your own
+    - no special syntax? you just come up with your own
+    - but start with +project @context
     - colorized if in config
     - same with priority. priority is just a another tag 
       - !!! is not special, but defined 

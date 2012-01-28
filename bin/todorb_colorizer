@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'highline'
+t = HighLine.new(STDIN, STDOUT)
+s = ($_ || '').chomp
+t.say %Q|<%=color "#{s}", YELLOW%>|  

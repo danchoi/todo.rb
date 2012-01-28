@@ -1,11 +1,5 @@
 #!/usr/bin/env ruby
-
 require 'optparse'
-require 'highline'
-
-t = HighLine.new(STDIN, STDOUT)
-# t.say "Hello <%=color 'world', YELLOW%>" # TODO use this later maybe
-
 cmd = File.basename __FILE__
 
 opts = {}
@@ -41,11 +35,30 @@ END
       pipe.close
     }
   end
-end
 
+  def catn
+    exec "cat -n #{todo_file}"
+  end
+
+  def filter context_or_project
+    exec "cat -n #{todo_file} | grep '#{context_or_project}\\>'"
+  end
+end
 
 
 t = Todo.new
 command = ARGV.shift
-t.ed_command command, *ARGV
+
+/^(?<context>@\S+)$/ =~ command
+/^(?<project>\+\S+)$/ =~ command
+
+if context && ARGV.empty?
+  t.filter context
+elsif project && ARGV.empty?
+  t.filter project
+elsif command.nil?
+  t.catn 
+else
+  t.ed_command command, *ARGV
+end
 
