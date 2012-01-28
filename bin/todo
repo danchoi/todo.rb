@@ -31,12 +31,16 @@ class Todo
     @todo_file = @opts[:todo_file]
   end
 
-  def ed_command command
+  def ed_command command, *input_text
+    text = input_text.empty? ? nil : "\n#{input_text.join(' ')}\n."
     IO.popen("ed #{todo_file}", 'w') {|pipe|
       script = <<END
-#{command}
+#{command}#{text}
 wq
 END
+      puts "SCRIPT"
+      puts script
+      puts 
       pipe.puts script
       pipe.close
     }
