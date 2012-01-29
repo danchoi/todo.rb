@@ -30,7 +30,6 @@ class Todo
 #{command}#{text}
 wq
 END
-      #puts script
       pipe.puts script
       pipe.close
     }
