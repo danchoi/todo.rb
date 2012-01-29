@@ -53,23 +53,38 @@ echo 1>&2 2>/dev/null
 END
   end
 
-  def list_done tag=nil
-    if tag
-      filter tag, done_file
-    else
-      catn done_file
-    end
-  end
-
-  def filter(context_or_project, list_file = todo_file)
+  def filter(context_or_project=nil, list_file=todo_file, no_exec=false)
     s = context_or_project
     $stderr.puts
     # don't put /< before the grep arg
-    grep_arg = s =~ /^!/ ? s : "#{s.sub(/^\//,'')}\\>"
-    exec <<END
-cat -n #{list_file} | grep -i '#{grep_arg}' | #{colorizer} '#{s}'
+
+    grep_arg = if s && s =~ /^!/ 
+      s
+    elsif s
+      "#{s.sub(/^\//,'')}\\>"
+    elsif s.nil?
+      ".*"
+    end
+    grep_filter = grep_arg && " | grep -i '#{grep_arg}' " 
+    script = <<END
+cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
 echo 1>&2 2>/dev/null
 END
+    if no_exec
+      script
+    else
+      exec(script)
+    end
+  end
+
+  def filter_done_file(t)
+    filter t, done_file
+  end
+
+  def list_all tag=nil
+    a = filter tag, todo_file, true
+    b = filter tag, done_file, true
+    exec ["echo 'todo'", a, "echo 'done'", b].join("\n")
   end
 
   def mark_done range
@@ -132,6 +147,7 @@ END
   end
 
   def self.expand_tag(t)
+    return unless t
     re = /^#{Regexp.escape(t)}/
     match = new.get_report_data.keys.detect {|key| key =~ re} 
     if match && match != t
@@ -179,9 +195,11 @@ elsif search_word
 elsif command =~ /^pri/ && args.empty?
   t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
-  t.list_done Todo.expand_tag(args[0])
+  t.filter_done_file  Todo.expand_tag(args[0])
 elsif command == 'done' && args.empty?
-  t.list_done
+  t.filter
+elsif command == 'all' 
+  t.list_all Todo.expand_tag(args[0])
 elsif command == 'do' 
   t.mark_done args[0]
 elsif command == 'undo' 

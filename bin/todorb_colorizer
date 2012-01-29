@@ -6,6 +6,7 @@ t = HighLine.new(STDIN, STDOUT)
 terr = HighLine.new(STDIN, STDERR)
 
 filter = ARGV.first
+
 CONTEXT_COLOR = 'CYAN'
 PROJECT_COLOR = 'RED'
 
