@@ -55,7 +55,7 @@ END
   end
 
   def done range
-    puts range
+    return unless range =~ /\S/
     exec <<END
 cat #{todo_file} | sed -n '#{range}p' | 
   awk '{print d " | " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
@@ -73,6 +73,7 @@ command = ARGV.shift
 /^(?<project>\+\S+)$/ =~ command
 /^\/(?<search_word>\S+)$/ =~ command
 
+# TODO allow filtering done by context
 if context 
   t.filter context
 elsif project 
