@@ -2,8 +2,11 @@
 gem 'highline', '>= 1.6.11'
 require 'highline'
 
-if ARGV[0] == '-C'
+if ARGV[0] == '--no-color'
   $no_color = true
+  ARGV.shift
+elsif ARGV[0] == '--html'
+  $html = true
   ARGV.shift
 end
 
@@ -37,16 +40,10 @@ def mark_priority s
   s
 end
 
-if filter 
-  filter_word_regex = /#{Regexp.escape(filter)} */
-end
 
 while STDIN.gets
   next unless $_
   s = $_ 
-  if filter && filter !~ /^!/
-    s.gsub!(filter_word_regex, '') 
-  end
   t.say mark_priority(colorize(s))
 end
 

@@ -1,5 +1,5 @@
 
-COLORIZER = Pathname.new(File.dirname(__FILE__)) + 'colorize.rb'
+COLORIZER = File.join(File.dirname(__FILE__), 'colorizer.rb')
 
 class Todo
 
@@ -12,7 +12,7 @@ class Todo
       done_file: 'done.txt'
     }
     @opts = defaults.merge opts
-    @colorizer = @opts[:color] ? COLORIZER : "#{COLORIZER} -C"
+    @colorizer = @opts[:color] ? COLORIZER : "#{COLORIZER} --no-color"
     @todo_file = @opts[:todo_file]
     @backup_file = ".#{@todo_file}.bkp"
     @done_file = @opts[:done_file]
@@ -76,9 +76,7 @@ END
       ".*"
     end
     grep_filter = grep_arg && " | grep -i '#{grep_arg}' " 
-    header = s ? "echo '        #{s}' | #{colorizer}" : ''
     script = <<END
-#{header}
 cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
 echo 1>&2 2>/dev/null
 END
