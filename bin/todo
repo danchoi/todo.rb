@@ -102,7 +102,7 @@ END
   end
 
   def self.expand_tag(t)
-    re = /^#{Regexp.escape(t.sub(/^\//,''))}/
+    re = /^#{Regexp.escape(t)}/
     match = new.get_report_data.keys.detect {|key| key =~ re} 
     if match && match != t
       $stderr.puts "Expanding #{t} -> #{match}"
@@ -120,7 +120,7 @@ args = ARGV.dup
 # Autoexpand any tags
 
 args = args.map {|a| 
-  if a =~ /^(@@|\++)/ && (expanded_tag = Todo.expand_tag(a[1..-1]))
+  if a =~ /^(@@|\+\+)/ && (expanded_tag = Todo.expand_tag(a[1..-1]))
     expanded_tag
   else
     a
@@ -139,11 +139,11 @@ command = args.shift
 if context && args.empty?
   t.filter Todo.expand_tag(context)
 elsif context && !args.empty?
-  t.ed_command('a', [command] + args)
+  t.ed_command('a', [Todo.expand_tag(context)] + args)
 elsif project && args.empty?
   t.filter Todo.expand_tag(project)
 elsif project && !args.empty?
-  t.ed_command('a', [command] + args)
+  t.ed_command('a', [Todo.expand_tag(project)] + args)
 elsif search_word 
   t.filter search_word
 elsif command =~ /^pri/ && args.empty?
