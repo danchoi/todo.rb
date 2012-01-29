@@ -60,7 +60,7 @@ END
     grep_arg = if s && s =~ /^!/ 
       s
     elsif s
-      "#{s.sub(/^\//,'')}\\>"
+      "#{s}\\>"
     elsif s.nil?
       ".*"
     end
@@ -177,7 +177,6 @@ command = args.shift
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
-/^(?<search_word>\/.+)$/ =~ command
 
 # TODO allow filtering done by context
 
@@ -189,8 +188,6 @@ elsif project && args.empty?
   t.filter Todo.expand_tag(project)
 elsif project && !args.empty?
   t.ed_command('a', [Todo.expand_tag(project)] + args)
-elsif search_word 
-  t.filter search_word
 elsif command =~ /^pri/ && args.empty?
   t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
