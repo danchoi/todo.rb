@@ -1,4 +1,6 @@
 
+COLORIZER = Pathname.new(File.dirname(__FILE__)) + 'colorize.rb'
+
 class Todo
 
   attr_accessor :todo_file, :done_file, :backup_file, :colorizer
@@ -10,7 +12,7 @@ class Todo
       done_file: 'done.txt'
     }
     @opts = defaults.merge opts
-    @colorizer = @opts[:color] ? 'todorb_colorizer' : 'todorb_colorizer -C'
+    @colorizer = @opts[:color] ? COLORIZER : "#{COLORIZER} -C"
     @todo_file = @opts[:todo_file]
     @backup_file = ".#{@todo_file}.bkp"
     @done_file = @opts[:done_file]
