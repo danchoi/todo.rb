@@ -48,7 +48,7 @@ END
   def filter context_or_project
     $stderr.puts
     exec <<END
-cat -n #{todo_file} | grep '#{context_or_project}\\>' | #{colorizer} #{context_or_project}
+cat -n #{todo_file} | grep '#{context_or_project.sub(/^\//,'')}\\>' | #{colorizer} #{context_or_project}
 echo
 END
   end
@@ -103,7 +103,7 @@ command = ARGV.shift
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
-/^(?<search_word>\/\S+)$/ =~ command
+/^(?<search_word>\/.+)$/ =~ command
 
 # TODO allow filtering done by context
 

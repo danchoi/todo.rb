@@ -28,7 +28,7 @@ def mark_priority s
 end
 
 if filter 
-  strip_word_re = /#{Regexp.escape(filter.sub("/", ''))} */
+  filter_word_regex = /#{Regexp.escape(filter)} */
   t.say "     #{colorize(filter)}"
   puts
 end
@@ -37,8 +37,7 @@ while STDIN.gets
   next unless $_
   s = $_ 
   if filter 
-    next unless s =~ strip_word_re 
-    s.gsub!(strip_word_re, '') 
+    s.gsub!(filter_word_regex, '') 
   end
   t.say mark_priority(colorize(s))
 end
