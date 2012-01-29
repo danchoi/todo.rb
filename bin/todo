@@ -1,13 +1,6 @@
 #!/usr/bin/env ruby
-require 'optparse'
-cmd = File.basename __FILE__
 
-opts = {}
-op = OptionParser.new {|o|
-  o.banner = "Usage: #{cmd} [options and args]"
-  o.separator ""
-}
-op.parse!
+cmd = File.basename __FILE__
 
 class Todo
   attr_accessor :todo_file, :done_file, :colorizer
