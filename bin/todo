@@ -52,7 +52,8 @@ END
   def filter context_or_project
     s = context_or_project
     $stderr.puts
-    grep_arg = s =~ /^!/ ? s : "\\<#{s.sub(/^\//,'')}\\>"
+    # don't put /< before the grep arg
+    grep_arg = s =~ /^!/ ? s : "#{s.sub(/^\//,'')}\\>"
     exec <<END
 cat -n #{todo_file} | grep -i '#{grep_arg}' | #{colorizer} '#{s}'
 echo 1>&2 2>/dev/null
