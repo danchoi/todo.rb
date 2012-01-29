@@ -38,7 +38,7 @@ end
 while STDIN.gets
   next unless $_
   s = $_ 
-  if filter 
+  if filter && filter !~ /^!/
     s.gsub!(filter_word_regex, '') 
   end
   t.say mark_priority(colorize(s))

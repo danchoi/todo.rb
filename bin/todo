@@ -50,9 +50,11 @@ END
   end
 
   def filter context_or_project
+    s = context_or_project
     $stderr.puts
+    grep_arg = s =~ /^!/ ? s : "\\<#{s.sub(/^\//,'')}\\>"
     exec <<END
-cat -n #{todo_file} | grep '#{context_or_project.sub(/^\//,'')}\\>' | #{colorizer} #{context_or_project}
+cat -n #{todo_file} | grep -i '#{grep_arg}' | #{colorizer} '#{s}'
 echo 1>&2 2>/dev/null
 END
   end
@@ -117,6 +119,8 @@ elsif project && ARGV.empty?
   t.filter project
 elsif search_word 
   t.filter search_word
+elsif command =~ /^pri/ && ARGV.empty?
+  t.filter '!'
 elsif command == 'done' && !ARGV.empty?
   t.mark_done ARGV.join(' ')
 elsif command == 'done' && ARGV.empty?
