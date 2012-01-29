@@ -38,18 +38,13 @@ most efficient and the least obtrusive.
     todo pri
 
 
-<pre style='color:#08FF08;font-family:Andale Mono;background-color:black'>
-
      1	html output option
-     2	<span style='color:#DC143C'>+todo.rb</span> color configuration option
-<span style='color:#FFFF00'>     3	buy tea bags! </span><span style='color:#9400D3'>@cambridgeport</span>
-     4	make better email response system for <span style='color:#DC143C'>+kindlefeeder</span> <span style='color:#DC143C'>+kaja</span>
-     5	<span style='color:#DC143C'>+todo.rb</span> make help a command with output
-     6	<span style='color:#9400D3'>@cambridgeport</span> buy toothpaste
-<span style='color:#FFFF00'>     7	</span><span style='color:#DC143C'>+kaja</span><span style='color:#FFFF00'> dogood facebook!</span>
-     8	<span style='color:#ECECEC'>@email</span> email nate back
-<span style='color:#FFFF00'>     9	</span><span style='color:#ECECEC'>@harvardsq</span><span style='color:#FFFF00'> get work done!</span>
-    10	<span style='color:#DC143C'>+todo.rb</span> README
-
-</pre>
-
+     2	+todo.rb color configuration option
+     3	buy tea bags! @cambridgeport
+     4	make better email response system for +kindlefeeder +kaja
+     5	+todo.rb make help a command with output
+     6	@cambridgeport buy toothpaste
+     7	+kaja dogood facebook!
+     8	@email email nate back
+     9	@harvardsq get work done!
+    10	+todo.rb README
