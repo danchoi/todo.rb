@@ -2,9 +2,12 @@
 
 require 'todo'
 
-opts = {color:true}
+opts = {formatter: :color}
 if ARGV[0] == '-C'
-  opts[:color] = false 
+  opts[:formatter] = :nocolor
+  ARGV.shift
+elsif ARGV[0] == '--html'
+  opts[:formatter] = :html
   ARGV.shift
 end
 
@@ -47,4 +50,3 @@ elsif command.nil?
 else
   t.ed_command! command, *args
 end
-

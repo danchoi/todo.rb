@@ -1,18 +1,24 @@
 
 COLORIZER = File.join(File.dirname(__FILE__), 'colorizer.rb')
+HTML = File.join(File.dirname(__FILE__), 'html.rb')
 
 class Todo
 
-  attr_accessor :todo_file, :done_file, :backup_file, :colorizer
+  attr_accessor :todo_file, :done_file, :backup_file, :formatter
 
   def initialize(opts={})
-    # TODO may read from .todorc
+
     defaults = { 
       todo_file: 'todo.txt',
       done_file: 'done.txt'
     }
     @opts = defaults.merge opts
-    @colorizer = @opts[:color] ? COLORIZER : "#{COLORIZER} --no-color"
+    @formatter = {
+      color: COLORIZER,
+      nocolor: "#{COLORIZER} --no-color",
+      html: HTML
+    }[@opts[:formatter]]
+
     @todo_file = @opts[:todo_file]
     @backup_file = ".#{@todo_file}.bkp"
     @done_file = @opts[:done_file]
@@ -62,7 +68,7 @@ END
 
   def catn(list_file = todo_file)
     exec <<END
-cat -n #{list_file} | #{colorizer}
+cat -n #{list_file} | #{formatter}
 END
   end
 
@@ -71,7 +77,7 @@ END
     # don't put /< before the grep arg
     grep_filter = s ? " | grep -i '#{s}\\>' " : ""
     script = <<END
-cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
+cat -n #{list_file} #{grep_filter} | #{formatter} #{s ? "'#{s}'" : ''}
 END
     if no_exec
       script
@@ -126,7 +132,7 @@ END
     longest_tag_len = report_data.keys.reduce(0) {|max, key| [max, key.length].max} + 3
     placeholders = "%-#{longest_tag_len}s %8s %8s %8s" 
     headers = %w(tag priority todo done)
-    IO.popen(colorizer, 'w') {|pipe|
+    IO.popen(formatter, 'w') {|pipe|
       pipe.puts(placeholders % headers)
       pipe.puts placeholders.scan(/\d+/).map {|a|'-'*(a.to_i)}.join(' ')
       report_data.keys.sort_by {|k| k.downcase}.each {|k|
