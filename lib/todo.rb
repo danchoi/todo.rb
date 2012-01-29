@@ -43,7 +43,7 @@ END
       pipe.puts script
       pipe.close
     }
-    exec "diff --ed  #{backup_file} #{todo_file}"
+    exec "diff #{backup_file} #{todo_file}"
   end
 
   def revert
