@@ -6,17 +6,22 @@ context_color = 'CYAN'
 project_color = 'RED'
 
 while STDIN.gets
-  t = HighLine.new(STDIN, STDOUT)
-  s = ($_ || '').chomp
-  s.gsub!(strip_word, '') if strip_word
+  s = ($_ || '')
 
+  if strip_word 
+    strip_word_re = /#{Regexp.escape(strip_word)} */
+    next unless s =~ strip_word_re 
+    s.gsub!(strip_word_re, '') 
+  end
+
+  t = HighLine.new(STDIN, STDOUT)
   # color @contexts and +projects
-  s.gsub!(/@\w+/) {|m|
+  s.gsub!(/@\S+/) {|m|
     "<%= color '#{m}', #{context_color} %>"
   }
-  s.gsub!(/\+\w+/) {|m|
+  s.gsub!(/\+\S+/) {|m|
     "<%= color '#{m}', #{project_color} %>"
   }
-  
+
   t.say s
 end

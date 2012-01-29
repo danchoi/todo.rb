@@ -38,6 +38,9 @@ Instead of writing wrappers around  ed commands, why not just forward them direc
 
   todo @cambridgeport # => lists all tasks @cambridgeport
 
+  can also do this 
+  todo /tea # => general regex search
+
 etc.
 
 Filters and tags

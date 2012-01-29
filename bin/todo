@@ -53,11 +53,14 @@ command = ARGV.shift
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
+/^\/(?<search_word>\S+)$/ =~ command
 
-if context && ARGV.empty?
+if context 
   t.filter context
-elsif project && ARGV.empty?
+elsif project 
   t.filter project
+elsif search_word
+  t.filter search_word
 elsif command.nil?
   t.catn 
 else
