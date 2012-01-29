@@ -14,7 +14,7 @@ def colorize s
 end
 
 if filter 
-  strip_word_re = /#{Regexp.escape(filter)} */
+  strip_word_re = /#{Regexp.escape(filter.sub("/", ''))} */
   t.say "     #{colorize(filter)}"
   puts
 end

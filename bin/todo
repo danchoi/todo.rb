@@ -14,7 +14,6 @@ class Todo
 
   def initialize(opts={})
     # TODO may read from .todorc
-
     defaults = { 
       todo_file: 'todo.txt',
       done_file: 'done.txt'
@@ -61,7 +60,30 @@ cat #{todo_file} | sed -n '#{range}p' |
   awk '{print d " | " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
 echo "#{range}d\nwq\n" | ed -s #{todo_file} 
 END
+  end
 
+  def report
+    report = [:todo, :done].
+      select {|a| File.exist?(send("#{a}_file"))}.
+      inject({}) {|m, list|
+        file = "#{list}_file"
+        File.read(send(file)).scan(/[@\+]\S+/).group_by {|t| t}.
+          map {|k, v|
+            m[k] ||= {}
+            m[k][list] = (m[k][list] || 0) + v.size
+          }
+        m
+      }
+    longest_tag_len = report.keys.reduce(0) {|max, key| [max, key.length].max} + 3
+    placeholders = "%-#{longest_tag_len}s%-8s%-8s" 
+    headers = %w(tag todo done)
+    IO.popen(colorizer, 'w') {|pipe|
+      pipe.puts(placeholders % headers)
+      pipe.puts [longest_tag_len, 8, 8].map {|a|'-'*(a-1)}.join(' ')
+      report.keys.sort_by {|k| k.downcase}.each {|k|
+        pipe.puts placeholders % [k, report[k][:todo], report[k][:done]]
+      }
+    }
   end
 end
 
@@ -71,17 +93,20 @@ command = ARGV.shift
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
-/^\/(?<search_word>\S+)$/ =~ command
+/^(?<search_word>\/\S+)$/ =~ command
 
 # TODO allow filtering done by context
-if context 
+
+if context && ARGV.empty?
   t.filter context
-elsif project 
+elsif project && ARGV.empty?
   t.filter project
-elsif search_word
+elsif search_word 
   t.filter search_word
-elsif command == 'done'
+elsif command == 'done' && ARGV.empty?
   t.done ARGV.join(' ')
+elsif command == 'ls' && ARGV.empty?
+  t.report
 elsif command.nil?
   t.catn 
 else
