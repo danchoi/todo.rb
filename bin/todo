@@ -3,7 +3,7 @@
 cmd = File.basename __FILE__
 
 class Todo
-  attr_accessor :todo_file, :done_file, :colorizer
+  attr_accessor :todo_file, :done_file, :backup_file, :colorizer
 
   def initialize(opts={})
     # TODO may read from .todorc
@@ -14,10 +14,12 @@ class Todo
     @colorizer = 'todorb_colorizer'
     @opts = defaults.merge opts
     @todo_file = @opts[:todo_file]
+    @backup_file = ".#{@todo_file}.bkp"
     @done_file = @opts[:done_file]
   end
 
   def ed_command command, *input_text
+    `cp #{todo_file} #{backup_file}`
     text = input_text.empty? ? nil : "\n#{input_text.join(' ')}\n."
     IO.popen("ed -s #{todo_file}", 'w') {|pipe|
       script = <<END
@@ -28,6 +30,15 @@ END
       pipe.puts script
       pipe.close
     }
+  end
+
+  def revert
+    return unless File.exist?(backup_file)
+    exec <<END
+mv #{todo_file} #{backup_file}.2
+mv #{backup_file} #{todo_file}
+mv #{backup_file}.2 #{backup_file}
+END
   end
 
   def catn(list_file = todo_file)
@@ -154,6 +165,8 @@ elsif command == 'done' && args.empty?
   t.list_done
 elsif command == 'ls' && args.empty?
   t.report
+elsif command == 'revert' && args.empty?
+  t.revert
 elsif command.nil?
   t.catn 
 else
