@@ -37,23 +37,27 @@ END
     }
   end
 
-  def catn
+  def catn(list_file = todo_file)
     $stderr.puts
     exec <<END
-cat -n #{todo_file} | #{colorizer}
-echo
+cat -n #{list_file} | #{colorizer}
+echo 1>&2 2>/dev/null
 END
+  end
+
+  def list_done
+    catn done_file
   end
 
   def filter context_or_project
     $stderr.puts
     exec <<END
 cat -n #{todo_file} | grep '#{context_or_project.sub(/^\//,'')}\\>' | #{colorizer} #{context_or_project}
-echo
+echo 1>&2 2>/dev/null
 END
   end
 
-  def done range
+  def mark_done range
     return unless range =~ /\S/
     exec <<END
 cat #{todo_file} | sed -n '#{range}p' | 
@@ -113,8 +117,10 @@ elsif project && ARGV.empty?
   t.filter project
 elsif search_word 
   t.filter search_word
+elsif command == 'done' && !ARGV.empty?
+  t.mark_done ARGV.join(' ')
 elsif command == 'done' && ARGV.empty?
-  t.done ARGV.join(' ')
+  t.list_done
 elsif command == 'ls' && ARGV.empty?
   t.report
 elsif command.nil?

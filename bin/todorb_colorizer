@@ -3,6 +3,7 @@ require 'highline'
 
 HighLine.color_scheme = HighLine::SampleColorScheme.new
 t = HighLine.new(STDIN, STDOUT)
+terr = HighLine.new(STDIN, STDERR)
 
 filter = ARGV.first
 CONTEXT_COLOR = 'CYAN'
@@ -29,8 +30,9 @@ end
 
 if filter 
   filter_word_regex = /#{Regexp.escape(filter)} */
-  t.say "     #{colorize(filter)}"
-  puts
+  # header for the list
+  terr.say "     #{colorize(filter)}"
+  $stderr.puts
 end
 
 while STDIN.gets
