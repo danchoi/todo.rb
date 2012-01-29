@@ -24,7 +24,6 @@ COLORS = ColorConfig.new
 def colorize s
   return s if $no_color
   # color @contexts and +projects
-
   s.gsub(/@\S+/) {|m| 
       if COLORS.rgb(m)
         "<%= color '#{m}', #{COLORS.rgb(m)} %>" 

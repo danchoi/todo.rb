@@ -12,4 +12,8 @@ class ColorConfig
   def rgb(key)
     @dict[key] && "RGB_" + @dict[key].upcase.scan(/[A-F0-9]{2}/).join
   end
+
+  def html(key)
+    @dict[key] && "#" + @dict[key].upcase.scan(/[A-F0-9]{2}/).join
+  end
 end
