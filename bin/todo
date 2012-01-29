@@ -18,8 +18,12 @@ class Todo
     @done_file = @opts[:done_file]
   end
 
-  def ed_command command, *input_text
+  def backup
     `cp #{todo_file} #{backup_file}`
+  end
+
+  def ed_command command, *input_text
+    backup
     text = input_text.empty? ? nil : "\n#{input_text.join(' ')}\n."
     IO.popen("ed -s #{todo_file}", 'w') {|pipe|
       script = <<END
@@ -70,10 +74,21 @@ END
 
   def mark_done range
     return unless range =~ /\S/
+    backup
     exec <<END
 cat #{todo_file} | sed -n '#{range}p' | 
-  awk '{print d " | " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
+  awk '{print d " " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
 echo "#{range}d\nwq\n" | ed -s #{todo_file} 
+END
+  end
+
+  def mark_undone range
+    return unless range =~ /\S/
+    backup
+    exec <<END
+cat #{done_file} | sed -n '#{range}p' | 
+  ruby -n -e  'puts $_.split(" ", 2)[1]'  >> #{todo_file}
+echo "#{range}d\nwq\n" | ed -s #{done_file} 
 END
   end
 
@@ -165,10 +180,12 @@ elsif command =~ /^pri/ && args.empty?
   t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
   t.list_done Todo.expand_tag(args[0])
-elsif command == 'done' && args[0] 
-  t.mark_done args[0]
 elsif command == 'done' && args.empty?
   t.list_done
+elsif command == 'do' 
+  t.mark_done args[0]
+elsif command == 'undo' 
+  t.mark_undone args[0]
 elsif command == 'ls' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
