@@ -38,7 +38,6 @@ most efficient and the least obtrusive.
     todo pri
 
 
-```html
 <pre style='color:#08FF08;font-family:Andale Mono;background-color:black'>
 
      1	html output option
@@ -53,4 +52,4 @@ most efficient and the least obtrusive.
     10	<span style='color:#DC143C'>+todo.rb</span> README
 
 </pre>
-```
+
