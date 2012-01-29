@@ -43,7 +43,7 @@ elsif command =~ /^pri/ && args.empty?
 elsif command == 'done' && args[0] =~ /^(@|\+)/
   t.filter_done_file  Todo.expand_tag(args[0])
 elsif command == 'done'
-  t.filter
+  t.filter_done_file nil
 elsif command == 'all' 
   t.list_all Todo.expand_tag(args[0])
 elsif command == 'do' 
