@@ -69,44 +69,73 @@ echo "#{range}d\nwq\n" | ed -s #{todo_file}
 END
   end
 
+  TAG_REGEX = /[@\+]\S+/
+   
   def report
-    tag_regex = /[@\+]\S+/
-    report = [:todo, :done].
-      select {|a| File.exist?(send("#{a}_file"))}.
-      inject({}) {|m, list|
-        file = "#{list}_file"
-        File.read(send(file)).scan(tag_regex).group_by {|t| t}.
-          map {|k, v|
-            m[k] ||= {}
-            m[k][list] = (m[k][list] || 0) + v.size
-          }
-        m
-      }
+    report_data = get_report_data 
     # count priority items per tag
-    File.readlines(todo_file).inject(report) {|report, line|
-      line.scan(tag_regex).each {|tag|
-        report[tag][:priority] ||= 0
+    File.readlines(todo_file).inject(report_data) {|report_data, line|
+      line.scan(TAG_REGEX).each {|tag|
+        report_data[tag][:priority] ||= 0
         if line =~ /!/
-          report[tag][:priority] = report[tag][:priority] + 1
+          report_data[tag][:priority] = report_data[tag][:priority] + 1
         end
-      }; report
+      }; report_data
     }
-    longest_tag_len = report.keys.reduce(0) {|max, key| [max, key.length].max} + 3
+    longest_tag_len = report_data.keys.reduce(0) {|max, key| [max, key.length].max} + 3
     placeholders = "%-#{longest_tag_len}s %8s %8s %8s" 
     headers = %w(tag priority todo done)
     IO.popen(colorizer, 'w') {|pipe|
       pipe.puts(placeholders % headers)
       pipe.puts placeholders.scan(/\d+/).map {|a|'-'*(a.to_i)}.join(' ')
-      report.keys.sort_by {|k| k.downcase}.each {|k|
-        pipe.puts placeholders % [k, report[k][:priority], report[k][:todo], report[k][:done]]
+      report_data.keys.sort_by {|k| k.downcase}.each {|k|
+        pipe.puts placeholders % [k, report_data[k][:priority], report_data[k][:todo], report_data[k][:done]]
       }
     }
   end
+
+  def get_report_data 
+    [:todo, :done].
+      select {|a| File.exist?(send("#{a}_file"))}.
+      inject({}) {|m, list|
+        file = "#{list}_file"
+        File.read(send(file)).scan(TAG_REGEX).group_by {|t| t}.
+          map {|k, v|
+            m[k] ||= {todo:0,done:0,priority:0}
+            m[k][list] = (m[k][list] || 0) + v.size
+          }
+        m
+      }
+  end
+
+  def self.expand_tag(t)
+    re = /^#{Regexp.escape(t.sub(/^\//,''))}/
+    match = new.get_report_data.keys.detect {|key| key =~ re} 
+    if match && match != t
+      $stderr.puts "Expanding #{t} -> #{match}"
+      match
+    else
+      t
+    end
+  end
 end
 
-
 t = Todo.new
-command = ARGV.shift
+
+args = ARGV.dup
+
+# Autoexpand any tags
+
+args = args.map {|a| 
+  if a =~ /^\/(@|\+)/ && (expanded_tag = Todo.expand_tag(a))
+    expanded_tag
+  else
+    a
+  end
+}
+
+
+command = args.shift
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
@@ -114,23 +143,23 @@ command = ARGV.shift
 
 # TODO allow filtering done by context
 
-if context && ARGV.empty?
-  t.filter context
-elsif project && ARGV.empty?
-  t.filter project
+if context && args.empty?
+  t.filter Todo.expand_tag(context)
+elsif project && args.empty?
+  t.filter Todo.expand_tag(project)
 elsif search_word 
   t.filter search_word
-elsif command =~ /^pri/ && ARGV.empty?
+elsif command =~ /^pri/ && args.empty?
   t.filter '!'
-elsif command == 'done' && !ARGV.empty?
-  t.mark_done ARGV.join(' ')
-elsif command == 'done' && ARGV.empty?
+elsif command == 'done' && !args.empty?
+  t.mark_done args.join(' ')
+elsif command == 'done' && args.empty?
   t.list_done
-elsif command == 'ls' && ARGV.empty?
+elsif command == 'ls' && args.empty?
   t.report
 elsif command.nil?
   t.catn 
 else
-  t.ed_command command, *ARGV
+  t.ed_command command, *args
 end
 
