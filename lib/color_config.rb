@@ -1,7 +1,7 @@
 require 'yaml'
 
 class ColorConfig
-  FILE = "colors.yml"
+  FILES = ["colors.yml", "#{ENV['HOME']}/.todo.rb/colors.yml"]
 
   def initialize
     @dict = {
@@ -9,8 +9,8 @@ class ColorConfig
       'project' => "DC143C",
       'priority' => 'FFFF00'
     }
-    if File.exist?(FILE)
-      @dict.merge!(YAML::load(File.read(FILE)))
+    if (file = FILES.detect {|x| File.exist?(x)})
+      @dict.merge!(YAML::load(File.read(file)))
     end
   end
 
