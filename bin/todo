@@ -22,7 +22,7 @@ class Todo
     `cp #{todo_file} #{backup_file}`
   end
 
-  def ed_command command, *input_text
+  def ed_command! command, *input_text
     backup
     text = input_text.empty? ? nil : "\n#{input_text.join(' ')}\n."
     IO.popen("ed -s #{todo_file}", 'w') {|pipe|
@@ -33,6 +33,7 @@ END
       pipe.puts script
       pipe.close
     }
+    exec "diff --ed  #{backup_file} #{todo_file}"
   end
 
   def revert
@@ -86,7 +87,7 @@ END
     exec ["echo 'todo'", a, "echo 'done'", b].join("\n")
   end
 
-  def mark_done range
+  def mark_done! range
     return unless range =~ /\S/
     backup
     exec <<END
@@ -96,7 +97,7 @@ echo "#{range}d\nwq\n" | ed -s #{todo_file}
 END
   end
 
-  def mark_undone range
+  def mark_undone! range
     return unless range =~ /\S/
     backup
     exec <<END
@@ -182,11 +183,11 @@ command = args.shift
 if context && args.empty?
   t.filter Todo.expand_tag(context)
 elsif context && !args.empty?
-  t.ed_command('a', [Todo.expand_tag(context)] + args)
+  t.ed_command!('a', [Todo.expand_tag(context)] + args)
 elsif project && args.empty?
   t.filter Todo.expand_tag(project)
 elsif project && !args.empty?
-  t.ed_command('a', [Todo.expand_tag(project)] + args)
+  t.ed_command!('a', [Todo.expand_tag(project)] + args)
 elsif command =~ /^pri/ && args.empty?
   t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
@@ -196,9 +197,9 @@ elsif command == 'done' && args.empty?
 elsif command == 'all' 
   t.list_all Todo.expand_tag(args[0])
 elsif command == 'do' 
-  t.mark_done args[0]
+  t.mark_done! args[0]
 elsif command == 'undo' 
-  t.mark_undone args[0]
+  t.mark_undone! args[0]
 elsif command == 'ls' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
@@ -206,6 +207,6 @@ elsif command == 'revert' && args.empty?
 elsif command.nil?
   t.catn 
 else
-  t.ed_command command, *args
+  t.ed_command! command, *args
 end
 
