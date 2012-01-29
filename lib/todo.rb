@@ -55,6 +55,11 @@ mv #{backup_file}.2 #{backup_file}
 END
   end
 
+  def diff
+    return unless File.exist?(backup_file)
+    exec "diff #{backup_file} #{todo_file}"
+  end
+
   def catn(list_file = todo_file)
     exec <<END
 cat -n #{list_file} | #{colorizer}

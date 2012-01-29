@@ -40,6 +40,8 @@ elsif command == 'ls' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
   t.revert
+elsif command == 'diff' && args.empty?
+  t.diff
 elsif command.nil?
   t.catn 
 else
