@@ -39,11 +39,19 @@ END
   end
 
   def catn
-    exec "cat -n #{todo_file} | #{colorizer}"
+    exec <<END
+echo 
+cat -n #{todo_file} | #{colorizer}
+echo
+END
   end
 
   def filter context_or_project
-    exec "cat -n #{todo_file} | grep '#{context_or_project}\\>' | #{colorizer} #{context_or_project}"
+    exec <<END
+echo 
+cat -n #{todo_file} | grep '#{context_or_project}\\>' | #{colorizer} #{context_or_project}
+echo
+END
   end
 end
 
