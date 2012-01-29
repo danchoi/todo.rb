@@ -18,8 +18,9 @@ def mark_priority s
   return s unless  s =~ /!/ 
   s.chomp!
   erb_re =  Regexp.new "<%=.+%>"
+  style = s =~ /!!!/ ?  ':blink, :warning' : ':warning' 
   s.split(erb_re).map {|a|
-    [a, "<%= color '#{a}', :warning %>"]
+    [a, "<%= color '#{a}', #{style} %>"]
   }.each {|(old, new)|
     s.sub!(old, new)
   }
