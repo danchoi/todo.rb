@@ -2,7 +2,13 @@
 
 require 'todo'
 
-t = Todo.new
+opts = {color:true}
+if ARGV[0] == '-C'
+  opts[:color] = false 
+  ARGV.shift
+end
+
+t = Todo.new opts
 
 args = ARGV.dup
 

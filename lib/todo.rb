@@ -9,8 +9,8 @@ class Todo
       todo_file: 'todo.txt',
       done_file: 'done.txt'
     }
-    @colorizer = 'todorb_colorizer'
     @opts = defaults.merge opts
+    @colorizer = @opts[:color] ? 'todorb_colorizer' : 'todorb_colorizer -C'
     @todo_file = @opts[:todo_file]
     @backup_file = ".#{@todo_file}.bkp"
     @done_file = @opts[:done_file]

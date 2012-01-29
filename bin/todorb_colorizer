@@ -2,6 +2,11 @@
 gem 'highline', '>= 1.6.11'
 require 'highline'
 
+if ARGV[0] == '-C'
+  $no_color = true
+  ARGV.shift
+end
+
 HighLine.color_scheme = HighLine::SampleColorScheme.new
 t = HighLine.new(STDIN, STDOUT)
 terr = HighLine.new(STDIN, STDERR)
@@ -12,12 +17,14 @@ CONTEXT_COLOR = 'CYAN'
 PROJECT_COLOR = 'RED'
 
 def colorize s
+  return s if $no_color
   # color @contexts and +projects
   s.gsub(/@\S+/) {|m| "<%= color '#{m}', #{CONTEXT_COLOR} %>" }.
     gsub(/\+[\S]+/) {|m| "<%= color '#{m}', #{PROJECT_COLOR} %>" }
 end
 
 def mark_priority s
+  return s if $no_color
   return s unless  s =~ /!/ 
   s.chomp!
   erb_re =  Regexp.new "<%=.+%>"
