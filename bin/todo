@@ -63,25 +63,35 @@ END
   end
 
   def report
+    tag_regex = /[@\+]\S+/
     report = [:todo, :done].
       select {|a| File.exist?(send("#{a}_file"))}.
       inject({}) {|m, list|
         file = "#{list}_file"
-        File.read(send(file)).scan(/[@\+]\S+/).group_by {|t| t}.
+        File.read(send(file)).scan(tag_regex).group_by {|t| t}.
           map {|k, v|
             m[k] ||= {}
             m[k][list] = (m[k][list] || 0) + v.size
           }
         m
       }
+    # count priority items per tag
+    File.readlines(todo_file).inject(report) {|report, line|
+      line.scan(tag_regex).each {|tag|
+        report[tag][:priority] ||= 0
+        if line =~ /!/
+          report[tag][:priority] = report[tag][:priority] + 1
+        end
+      }; report
+    }
     longest_tag_len = report.keys.reduce(0) {|max, key| [max, key.length].max} + 3
-    placeholders = "%-#{longest_tag_len}s%-8s%-8s" 
-    headers = %w(tag todo done)
+    placeholders = "%-#{longest_tag_len}s %8s %8s %8s" 
+    headers = %w(tag priority todo done)
     IO.popen(colorizer, 'w') {|pipe|
       pipe.puts(placeholders % headers)
-      pipe.puts [longest_tag_len, 8, 8].map {|a|'-'*(a-1)}.join(' ')
+      pipe.puts placeholders.scan(/\d+/).map {|a|'-'*(a.to_i)}.join(' ')
       report.keys.sort_by {|k| k.downcase}.each {|k|
-        pipe.puts placeholders % [k, report[k][:todo], report[k][:done]]
+        pipe.puts placeholders % [k, report[k][:priority], report[k][:todo], report[k][:done]]
       }
     }
   end

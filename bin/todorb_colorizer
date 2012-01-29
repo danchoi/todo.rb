@@ -11,7 +11,7 @@ PROJECT_COLOR = 'RED'
 def colorize s
   # color @contexts and +projects
   s.gsub(/@\S+/) {|m| "<%= color '#{m}', #{CONTEXT_COLOR} %>" }.
-    gsub(/\+\S+/) {|m| "<%= color '#{m}', #{PROJECT_COLOR} %>" }
+    gsub(/\+[\S]+/) {|m| "<%= color '#{m}', #{PROJECT_COLOR} %>" }
 end
 
 def mark_priority s
