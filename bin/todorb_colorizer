@@ -32,8 +32,6 @@ end
 
 if filter 
   filter_word_regex = /#{Regexp.escape(filter)} */
-  # header for the list
-  terr.say "        #{colorize(filter)}"
 end
 
 while STDIN.gets

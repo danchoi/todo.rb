@@ -74,7 +74,9 @@ END
       ".*"
     end
     grep_filter = grep_arg && " | grep -i '#{grep_arg}' " 
+    header = s ? "echo '        #{s}' | #{colorizer}" : ''
     script = <<END
+#{header}
 cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
 echo 1>&2 2>/dev/null
 END
