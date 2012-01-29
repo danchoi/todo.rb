@@ -49,17 +49,21 @@ echo 1>&2 2>/dev/null
 END
   end
 
-  def list_done
-    catn done_file
+  def list_done tag=nil
+    if tag
+      filter tag, done_file
+    else
+      catn done_file
+    end
   end
 
-  def filter context_or_project
+  def filter(context_or_project, list_file = todo_file)
     s = context_or_project
     $stderr.puts
     # don't put /< before the grep arg
     grep_arg = s =~ /^!/ ? s : "#{s.sub(/^\//,'')}\\>"
     exec <<END
-cat -n #{todo_file} | grep -i '#{grep_arg}' | #{colorizer} '#{s}'
+cat -n #{list_file} | grep -i '#{grep_arg}' | #{colorizer} '#{s}'
 echo 1>&2 2>/dev/null
 END
   end
@@ -159,8 +163,10 @@ elsif search_word
   t.filter search_word
 elsif command =~ /^pri/ && args.empty?
   t.filter '!'
-elsif command == 'done' && !args.empty?
-  t.mark_done args.join(' ')
+elsif command == 'done' && args[0] =~ /^(@|\+)/
+  t.list_done Todo.expand_tag(args[0])
+elsif command == 'done' && args[0] 
+  t.mark_done args[0]
 elsif command == 'done' && args.empty?
   t.list_done
 elsif command == 'ls' && args.empty?
