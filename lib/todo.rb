@@ -56,16 +56,13 @@ END
   end
 
   def catn(list_file = todo_file)
-    $stderr.puts
     exec <<END
 cat -n #{list_file} | #{colorizer}
-echo 1>&2 2>/dev/null
 END
   end
 
   def filter(context_or_project=nil, list_file=todo_file, no_exec=false)
     s = context_or_project
-    $stderr.puts
     # don't put /< before the grep arg
 
     grep_arg = if s && s =~ /^!/ 
@@ -78,7 +75,6 @@ END
     grep_filter = grep_arg && " | grep -i '#{grep_arg}' " 
     script = <<END
 cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
-echo 1>&2 2>/dev/null
 END
     if no_exec
       script

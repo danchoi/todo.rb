@@ -12,13 +12,16 @@ t = Todo.new opts
 
 args = ARGV.dup
 
+if args.size < 3 && args.delete('!')
+  exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | grep '!'"
+end
+
 command = args.shift
 has_args = !args.empty?
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
 
-# TODO allow filtering done by context
 
 if context && has_args
   t.ed_command!('a', [Todo.expand_tag(context)] + args)
@@ -42,8 +45,6 @@ elsif command == 'ls' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
   t.revert
-elsif command == '!' 
-  exec "#{File.expand_path(__FILE__)} | grep '!'"
 elsif command.nil?
   t.catn 
 else
