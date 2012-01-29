@@ -14,14 +14,6 @@ args = ARGV.dup
 
 # Autoexpand any tags
 
-args = args.map {|a| 
-  if a =~ /^(@@|\+\+)/ && (expanded_tag = Todo.expand_tag(a[1..-1]))
-    expanded_tag
-  else
-    a
-  end
-}
-
 command = args.shift
 has_args = !args.empty?
 
