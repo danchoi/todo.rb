@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'highline'
 
+HighLine.color_scheme = HighLine::SampleColorScheme.new
 t = HighLine.new(STDIN, STDOUT)
 
 filter = ARGV.first
@@ -11,6 +12,18 @@ def colorize s
   # color @contexts and +projects
   s.gsub(/@\S+/) {|m| "<%= color '#{m}', #{CONTEXT_COLOR} %>" }.
     gsub(/\+\S+/) {|m| "<%= color '#{m}', #{PROJECT_COLOR} %>" }
+end
+
+def mark_priority s
+  return s unless  s =~ /!/ 
+  s.chomp!
+  erb_re =  Regexp.new "<%=.+%>"
+  s.split(erb_re).map {|a|
+    [a, "<%= color '#{a}', :warning %>"]
+  }.each {|(old, new)|
+    s.sub!(old, new)
+  }
+  s
 end
 
 if filter 
@@ -26,6 +39,6 @@ while STDIN.gets
     next unless s =~ strip_word_re 
     s.gsub!(strip_word_re, '') 
   end
-  t.say colorize(s)
+  t.say mark_priority(colorize(s))
 end
 
