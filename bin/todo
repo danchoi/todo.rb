@@ -172,7 +172,6 @@ args = args.map {|a|
   end
 }
 
-
 command = args.shift
 
 /^(?<context>@\S+)$/ =~ command
