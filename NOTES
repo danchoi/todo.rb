@@ -1,25 +1,6 @@
 
 
-~/.rvm/gems/ruby-1.9.2-p290/gems/highline-1.6.9/test
-
-
-Allow configuring git hook before and after any command, so that todo is synced with a repo somewhere.
-
 Priorities: mark with number of !
-Tags: mark with .tag (think css classes)
-
-Use a css like stylesheet in config to choose colors
-
-No difference between context and project
-
-To edit a task, use ed. I don't want the screen context to be replaced with a full screen editor.
-
-colors in shell
-http://codesnippets.joyent.com/posts/show/1517
-
-put a tag colorizer in a different program and exec it with ruby -n
-
-  This reads the config and sees the colors each tag should be
 
 Instead of writing wrappers around  ed commands, why not just forward them directly
 
@@ -63,18 +44,14 @@ Filters and tags
     - do we really need sort order? no. user can just reorder by ed commands
     - things like !!! should only be used for colorization
 
-Done tasks
+  
+Dates 
+  Put this off to later
 
-  Come up with a tool later. Don't need a done.txt file. Just a program that compiles a list of done tasks from git repo.
 
 Git:
-  
-  git init
-  git push
-  git pull
-  git remote add origin etc.
+  Let user do this  
 
-  just use standard git hooks in .git/config directly
 
 
 
@@ -87,4 +64,6 @@ http://www.debian-administration.org/article/An_introduction_to_bash_completion_
 Codebrawl
 http://codebrawl.com/contests/command-line-todo-lists
 
+colors in shell
+http://codesnippets.joyent.com/posts/show/1517
 
