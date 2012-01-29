@@ -64,15 +64,7 @@ END
   def filter(context_or_project=nil, list_file=todo_file, no_exec=false)
     s = context_or_project
     # don't put /< before the grep arg
-
-    grep_arg = if s && s =~ /^!/ 
-      s
-    elsif s
-      "#{s}\\>"
-    elsif s.nil?
-      ".*"
-    end
-    grep_filter = grep_arg && " | grep -i '#{grep_arg}' " 
+    grep_filter = s ? " | grep -i '#{s}\\>' " : ""
     script = <<END
 cat -n #{list_file} #{grep_filter} | #{colorizer} #{s ? "'#{s}'" : ''}
 END
@@ -157,7 +149,6 @@ END
     re = /^#{Regexp.escape(t)}/
     match = new.get_report_data.keys.detect {|key| key =~ re} 
     if match && match != t
-      $stderr.puts "Expanding #{t} -> #{match}"
       match
     else
       t

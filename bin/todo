@@ -12,25 +12,20 @@ t = Todo.new opts
 
 args = ARGV.dup
 
-if args.size < 3 && args.delete('!')
+if args.size <= 2 && args.delete('!')
+
   exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | grep '!'"
 end
 
 command = args.shift
 has_args = !args.empty?
 
-/^(?<context>@\S+)$/ =~ command
-/^(?<project>\+\S+)$/ =~ command
+tag = command && command[/^(@|\+)\S+$/,0]
 
-
-if context && has_args
-  t.ed_command!('a', [Todo.expand_tag(context)] + args)
-elsif context 
-  t.filter Todo.expand_tag(context)
-elsif project && has_args
-  t.ed_command!('a', [Todo.expand_tag(project)] + args)
-elsif project 
-  t.filter Todo.expand_tag(project)
+if tag && has_args
+  t.ed_command!('a', [Todo.expand_tag(tag)] + args)
+elsif tag 
+  t.filter Todo.expand_tag(tag)
 elsif command == 'done' && args[0] =~ /^(@|\+)/
   t.filter_done_file  Todo.expand_tag(args[0])
 elsif command == 'done'
