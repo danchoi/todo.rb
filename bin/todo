@@ -42,6 +42,8 @@ elsif command == 'ls' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
   t.revert
+elsif command == '!' 
+  exec "#{File.expand_path(__FILE__)} | grep '!'"
 elsif command.nil?
   t.catn 
 else
