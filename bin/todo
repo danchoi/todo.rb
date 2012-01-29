@@ -10,8 +10,7 @@ op = OptionParser.new {|o|
 op.parse!
 
 class Todo
-  attr_accessor :todo_file
-  attr_accessor :colorizer
+  attr_accessor :todo_file, :done_file, :colorizer
 
   def initialize(opts={})
     # TODO may read from .todorc
@@ -23,6 +22,7 @@ class Todo
     @colorizer = 'todorb_colorizer'
     @opts = defaults.merge opts
     @todo_file = @opts[:todo_file]
+    @done_file = @opts[:done_file]
   end
 
   def ed_command command, *input_text
@@ -39,19 +39,29 @@ END
   end
 
   def catn
+    $stderr.puts
     exec <<END
-echo 
 cat -n #{todo_file} | #{colorizer}
 echo
 END
   end
 
   def filter context_or_project
+    $stderr.puts
     exec <<END
-echo 
 cat -n #{todo_file} | grep '#{context_or_project}\\>' | #{colorizer} #{context_or_project}
 echo
 END
+  end
+
+  def done range
+    puts range
+    exec <<END
+cat #{todo_file} | sed -n '#{range}p' | 
+  awk '{print d " | " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
+echo "#{range}d\nwq\n" | ed -s #{todo_file} 
+END
+
   end
 end
 
@@ -69,6 +79,8 @@ elsif project
   t.filter project
 elsif search_word
   t.filter search_word
+elsif command == 'done'
+  t.done ARGV.join(' ')
 elsif command.nil?
   t.catn 
 else
