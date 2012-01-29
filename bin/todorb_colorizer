@@ -16,8 +16,8 @@ end
 if filter 
   strip_word_re = /#{Regexp.escape(filter)} */
   t.say "     #{colorize(filter)}"
+  puts
 end
-
 
 while STDIN.gets
   next unless $_
