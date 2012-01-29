@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+gem 'highline', '>= 1.6.11'
 require 'highline'
 
 HighLine.color_scheme = HighLine::SampleColorScheme.new
