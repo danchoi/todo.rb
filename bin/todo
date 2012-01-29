@@ -17,25 +17,26 @@ args = args.map {|a|
 }
 
 command = args.shift
+has_args = !args.empty?
 
 /^(?<context>@\S+)$/ =~ command
 /^(?<project>\+\S+)$/ =~ command
 
 # TODO allow filtering done by context
 
-if context && args.empty?
-  t.filter Todo.expand_tag(context)
-elsif context && !args.empty?
+if context && has_args
   t.ed_command!('a', [Todo.expand_tag(context)] + args)
-elsif project && args.empty?
-  t.filter Todo.expand_tag(project)
-elsif project && !args.empty?
+elsif context 
+  t.filter Todo.expand_tag(context)
+elsif project && has_args
   t.ed_command!('a', [Todo.expand_tag(project)] + args)
+elsif project 
+  t.filter Todo.expand_tag(project)
 elsif command =~ /^pri/ && args.empty?
   t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
   t.filter_done_file  Todo.expand_tag(args[0])
-elsif command == 'done' && args.empty?
+elsif command == 'done'
   t.filter
 elsif command == 'all' 
   t.list_all Todo.expand_tag(args[0])
