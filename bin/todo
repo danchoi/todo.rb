@@ -12,8 +12,6 @@ t = Todo.new opts
 
 args = ARGV.dup
 
-# Autoexpand any tags
-
 command = args.shift
 has_args = !args.empty?
 
@@ -30,8 +28,6 @@ elsif project && has_args
   t.ed_command!('a', [Todo.expand_tag(project)] + args)
 elsif project 
   t.filter Todo.expand_tag(project)
-elsif command =~ /^pri/ && args.empty?
-  t.filter '!'
 elsif command == 'done' && args[0] =~ /^(@|\+)/
   t.filter_done_file  Todo.expand_tag(args[0])
 elsif command == 'done'
