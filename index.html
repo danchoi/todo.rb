@@ -168,20 +168,21 @@ performed on the todo.txt file.
 </p>
 
 <p>
-One thing to note is that if you want to insert text using a delegated ed
-command, you should use the following format. Put a space after the ed motion
+If you want to insert text via an ed
+command sequence, put a space after the ed motion
 command, followed by the text to insert.  Put quotes around the text if it
 contains any characters you don't want interpreted by the shell.
 </p>
+
+
+<p>So for example, this would append a new task after line 2:</p>
 
 <pre>
 $ t 3a "buy some fresh basil @traderjoes"
 </pre>
 
-<p>This would append the task after line 2.</p>
-
 <p>
-Now let's <strong>do</strong> some tasks.  This is how to mark tasks as done. 
+The <strong>do</strong> command marks tasks as done. 
 </p>
 
 <pre>
@@ -192,10 +193,6 @@ $ t do 2
 $ t do 1
 1d0
 < @harvardsq buy more moleskine notebooks
-
-$ t
-     1	<span style='color:#DC143C'>+opensource</span> release todo.rb
-     2  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
 </pre>
 
 <p>
@@ -304,6 +301,15 @@ tag            priority     todo     done
 
 <h2>Extras</h2>
 
+
+<p>If you want to undo a destructive action, use the <strong>revert</strong> command:</p>
+
+<pre>t revert</pre>
+
+<p>
+Before changing todo.txt, todo.rb makes a backup todo.txt as .todo.txt.bkp. The revert command just
+swaps the two files.
+</p>
 
 
 <h2>Source</h2>
