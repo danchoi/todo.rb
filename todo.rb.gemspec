@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Daniel Choi"]
   s.email       = ["dhchoi@gmail.com"]
   s.homepage    = "http://danchoi.github.com/todo.rb/"
-  s.summary     = %q{Finger GitHub users}
+  s.summary     = "ed-like todo list manager"
+  s.description = "ed-like todo list manager"
   s.description = %q{Finger GitHub users}
 
   s.rubyforge_project = "todo.rb"
