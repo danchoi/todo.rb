@@ -390,7 +390,7 @@ pre- and post-processing, such as pulling changes from an upstream git repositor
 committing the changes to git, and pushing changes upstream.</p>
 
 <pre>
-function tt-git()  {
+function ttgit()  {
   git pull
   pushd ~/todo && t $@
   git commit -a -m "edit"  2> /dev/null
