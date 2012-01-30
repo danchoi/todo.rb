@@ -344,14 +344,15 @@ tag            priority     todo     done
 
 <h2>Extras</h2>
 
-<p>If you want to undo a destructive action, use the "revert" command:</p>
+<p>If you want to undo a destructive action, you can use the "revert" command:</p>
 
 <pre>t revert</pre>
 
-
 <p>
 Before changing todo.txt, todo.rb backs up todo.txt as .todo.txt.bkp. The
-revert command just swaps the two files.
+revert command just swaps the two files. If you're versioning your todo.txt and done.txt files
+with Git, you can also use "git revert", "git stash" and similar commands 
+to achieve the same effect.
 </p>
 
 <p>If you don't want colored output, use the -C flag after t.</p>
