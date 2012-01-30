@@ -20,7 +20,7 @@ t do [task number]    move a task to the done.txt
 t undo [task number]  move a task from done.txt to todo.txt
 t [tag]               filter tasks by tag
 t pri [task number]   prioritize a task
-t unpri [task number] deprioritize a task
+t depri [task number] deprioritize a task
 t !                   show high priority tasks 
 t ! [tag]             show high priority tasks for a tag
 t report              show task report
