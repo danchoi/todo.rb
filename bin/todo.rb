@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'todo'
+require 'todo.rb.rb'
 
 opts = {formatter: :color}
 if ARGV[0] == '-C'
