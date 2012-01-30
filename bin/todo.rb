@@ -45,16 +45,16 @@ elsif command == 'all'
 elsif command == 'do' 
   t.mark_done! args[0]
 elsif command == 'undo' 
-  t.mark_undone! args[0]
+  t.mark_undone! args[0] # can be number or /regex/
 elsif command == 'report' && args.empty?
   t.report
-elsif command == 'revert' && args.empty?
+elsif command == 'revert' && args.empty?  # not necessary, really
   t.revert
-elsif command == 'diff' && args.empty?
+elsif command == 'diff' && args.empty? # rarely used
   t.diff
-elsif command == 'pri' && args[0] =~ /^\d+$/
+elsif command == 'pri' && args[0] 
   t.ed_command! "#{args[0]}s/$/ !/\nm0"
-elsif command == 'depri' && args[0] =~ /^\d+$/
+elsif command == 'depri' && args[0] 
   t.ed_command! "#{args[0]}s/!//g\nm/^[^!]*$/-1"
 elsif command.nil?
   t.catn 
