@@ -15,6 +15,7 @@ A [tag] may be a @context or a +project.
 
 t [tag] [task text]   append a task with tag
 t                     show tasks
+t [ed command]        perform ed command on todo list
 t done                show done tasks
 t do [task number]    move a task to the done.txt
 t undo [task number]  move a task from done.txt to todo.txt
