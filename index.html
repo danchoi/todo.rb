@@ -190,11 +190,12 @@ $ t
      3	<span style='color:#DC143C'>+opensource</span> release todo.rb
 </pre>
 
-<p>
-The 3m0 is an <strong>ed script</strong>. That's right, todo.rb delegates a lot
-of commands to <a href="http://en.wikipedia.org/wiki/Ed_%28text_editor%29">ed, the venerable Unix text editor</a>. This gives you a lot of power to edit your todo list from the 
-command line with very succinct commands, and without disrupting your command line
-workflow.
+<p> The 3m0 is an <strong>ed script</strong>. That's right, todo.rb delegates a
+lot of commands to <a
+href="http://en.wikipedia.org/wiki/Ed_%28text_editor%29">ed, the venerable Unix
+text editor</a>. This gives you a lot of power to edit your todo list from the
+command line with very succinct commands, and without disrupting your command
+line workflow.  
 </p>
 
 <p>So if you wanted to delete the first task, you would use 1d.
@@ -214,6 +215,13 @@ contains any characters you don't want interpreted by the shell.
 <pre>
 $ t 3a 'buy some fresh basil @traderjoes'
 </pre>
+
+<p>
+Remember, you do not have to use ed commands all the time. You can 
+always open the todo.txt and edit it directly in a more conventional text
+editor, like Vim, Emacs, or TextEdit. The data format is so simple that
+there is almost no way you can accidentally corrupt it.
+</p>
 
 <p>
 The <strong>do</strong> command marks tasks as done. 
