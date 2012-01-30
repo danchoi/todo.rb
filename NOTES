@@ -1,0 +1,69 @@
+
+
+Priorities: mark with number of !
+
+Instead of writing wrappers around  ed commands, why not just forward them directly
+
+  todo 3m4 
+  todo 3d
+  todo 3a [task text] # => appends a task after 3
+  todo 3c [text] # => change task 3
+  todo 3i [text] # => insert  a task before 3
+  todo 3s/test/blah/
+  todo ,n # => show numbered tasks
+
+  todo a reply to customer X +project1
+  todo a buy some carrots  @centralsq
+
+  # to filter
+
+  todo @cambridgeport # => lists all tasks @cambridgeport
+
+  can also do this 
+  todo /tea # => general regex search
+
+etc.
+
+Filters and tags
+
+  Filters are implemented by piping cat -n todolistfile to 
+    - a special ruby -n program that colorizes
+    - sed to filter by context and project
+    - something to sort by priority
+    - just a straight grep or sed filter
+  Tags
+    - no special syntax? you just come up with your own
+    - but start with +project @context
+    - colorized if in config
+    - same with priority. priority is just a another tag 
+      - !!! is not special, but defined 
+      http://code.dunae.ca/css_parser/
+    - colorizing syntax shouldn't be css, but just /regex/ COLOR
+
+  Sort order 
+    - do we really need sort order? no. user can just reorder by ed commands
+    - things like !!! should only be used for colorization
+
+  
+Dates 
+  Put this off to later
+
+
+Git:
+  Let user do this  
+
+
+
+
+
+References 
+
+If I need to implement Bash programmable completion
+http://www.debian-administration.org/article/An_introduction_to_bash_completion_part_1
+
+Codebrawl
+http://codebrawl.com/contests/command-line-todo-lists
+
+colors in shell
+http://codesnippets.joyent.com/posts/show/1517
+
