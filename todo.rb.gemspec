@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.homepage    = "http://danchoi.github.com/todo.rb/"
   s.summary     = "ed-like todo list manager"
   s.description = "ed-like todo list manager"
-  s.description = %q{Finger GitHub users}
 
   s.rubyforge_project = "todo.rb"
 
