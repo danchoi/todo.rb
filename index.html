@@ -25,11 +25,22 @@
     a { color: #333333; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
+    code { 
+     font-size: 0.9em;
+     font-family:Andale Mono;
+     background-color:#ECECEC;
+     border: 1px solid #DDD;
+     padding: 2px;
+
+    }
     pre { 
      border-radius: 5px;
      line-height: 1.1em;
-     padding: 15px; font-size: smaller;
-     color:#08FF08;font-family:Andale Mono;background-color:black 
+     padding: 15px; 
+     font-size: smaller;
+     color:#08FF08;
+     font-family:Andale Mono;
+     background-color:black 
     }
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
@@ -258,8 +269,8 @@ $ t do /moleskine/
 You'll notice that in the second instance, we used a <strong>regular expression</strong> 
 instead of a line number. This is possible because we are farming out work to `ed`.
 Tasks can be identified with ed-style <strong>addressing</strong>.
-So in the earlier example, instead of using <code>3m0</code>, we could have moved the task 
-with <code>/notebook/m0</code>.
+So in the earlier example, instead of using <code>t 3m0</code>, we could have moved the task 
+with <code>t /notebook/m0</code>.
 </p>
 
 <p>
