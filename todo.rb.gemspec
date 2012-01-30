@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 
   s.authors     = ["Daniel Choi"]
   s.email       = ["dhchoi@gmail.com"]
-  s.homepage    = "http://github.com/danchoi/todo.rb"
+  s.homepage    = "http://danchoi.github.com/todo.rb/"
   s.summary     = %q{Finger GitHub users}
   s.description = %q{Finger GitHub users}
 
