@@ -13,6 +13,9 @@ elsif ARGV[0] == '-v'
   require 'todo.rb/version'
   puts TodoRb::VERSION  
   exit
+elsif ARGV[0] == '-h'
+  puts "The guide is located at\nhttp://danchoi.github.com/todo.rb/"
+  exit
 end
 
 t = TodoRb.new opts
