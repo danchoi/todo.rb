@@ -285,6 +285,15 @@ task line numbers. You can just "use the force," so to speak, and manipulate you
 todo.txt using your memory of the tasks that are in there.
 </p>
 
+<p>For example, you could use regex to move the first item with the word "exercise" in it to after the first item with 
+the word "deadline" in it:</p>
+
+<pre>
+t /exercise/m/deadline
+</pre>
+
+<p>The closing '/' is optional.</p>
+
 <p> You can do batch manipulations with regular expressions too, using ed's 
 concise search and replace syntax.  For example, running 
 </p>
