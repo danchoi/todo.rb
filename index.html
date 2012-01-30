@@ -261,15 +261,19 @@ The "do" command marks tasks as done.
 $ t do 2
 2d1
 < @harvardsq buy some assam from tealuxe
+</pre>
 
+<p>Now watch this:</p>
+
+<pre>
 $ t do /moleskine/
 1d0
 < @harvardsq buy more moleskine notebooks
 </pre>
 
 <p>
-You'll notice that in the second instance, we used a <strong>regular expression</strong> 
-instead of a line number. This is possible because we are farming out work to `ed`.
+Here we used a <strong>regular expression</strong> instead of a line number to grab the task.
+This is possible because we are farming out work to `ed`.
 Tasks can be identified with ed-style <strong>addressing</strong>.
 So in the earlier example, instead of using <code>t 3m0</code>, we could have moved the task 
 with <code>t /notebook/m0</code>.
