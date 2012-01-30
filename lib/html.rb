@@ -37,7 +37,7 @@ def mark_priority s
   s
 end
 
-puts "<pre style='color:#08FF08;font-family:Andale Mono;background-color:black'>\n"
+puts "<pre>\n"
 while STDIN.gets
   next unless $_
   s = $_ 
