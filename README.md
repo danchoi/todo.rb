@@ -5,6 +5,6 @@ A command line todo list application, inspired by
 
 [todo.txt]:http://ginatrapani.github.com/todo.txt-cli/
 
-Instructions are located [here][github-page].
+Please visit the project webpage [here][github-page].
 
 [github-page]:http://danchoi.github.com/todo.rb/
