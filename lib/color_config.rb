@@ -1,17 +1,27 @@
 require 'yaml'
+require 'color/css'
 
 class ColorConfig
   FILES = ["colors.yml", "#{ENV['HOME']}/.todo.rb/colors.yml"]
 
   def initialize
     @dict = {
-      'context' =>  "ECECEC",
+      'context' =>  "cyan",
       'project' => "DC143C",
       'priority' => 'FFFF00'
     }
     if (file = FILES.detect {|x| File.exist?(x)})
       @dict.merge!(YAML::load(File.read(file)))
     end
+    # correct any non hex color names
+    @dict.each {|k, v|
+      if v !~ /[A-F0-9]{6}/
+        c = Color::CSS[v]
+        if c
+          @dict[k] = c.html
+        end
+      end
+    }
   end
 
   def raw(key)
