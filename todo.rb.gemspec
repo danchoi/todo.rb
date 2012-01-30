@@ -11,11 +11,11 @@ Gem::Specification.new do |s|
 
   s.authors     = ["Daniel Choi"]
   s.email       = ["dhchoi@gmail.com"]
-  s.homepage    = "http://github.com/danchoi/gitfinger"
+  s.homepage    = "http://github.com/danchoi/todo.rb"
   s.summary     = %q{Finger GitHub users}
   s.description = %q{Finger GitHub users}
 
-  s.rubyforge_project = "gitfinger"
+  s.rubyforge_project = "todo.rb"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
