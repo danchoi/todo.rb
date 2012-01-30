@@ -389,15 +389,25 @@ function tt()  {
 pre- and post-processing, such as pulling changes from an upstream git repository,
 committing the changes to git, and pushing changes upstream.</p>
 
-<p>Synchronize the folder containing your todo.txt, done.txt, and colors.yml
-across your computers with Git or Dropbox.</p>
+<pre>
+function tt-git()  {
+  git pull
+  pushd ~/todo && t $@
+  git commit -a -m "edit"  2> /dev/null
+  git push
+  popd
+}
+</pre>
 
-<p>Pipe todo.rb output into other unix tools like <strong>head</strong>,
-<strong>grep</strong>, <strong>lpr</strong>, or <strong>mail</strong>.
-</p>
+<p>I synchronize the folder containing my todo.txt, done.txt, and colors.yml
+across your computers using an private upstream GitHub repository.  You can also use Dropbox.</p>
+
+<p>You can easily pipe todo.rb output into other Unix tools like
+<strong>head</strong>, <strong>grep</strong>, <strong>lpr</strong>, or
+<strong>mail</strong>.</p>
 
 <p>
-Because todo.rb is a standard, non-interactive unix command-line program and
+Because todo.rb is a standard, non-interactive Unix command-line program and
 todo.txt is a regular text file, todo.rb is highly scriptable. 
 </p>
 
