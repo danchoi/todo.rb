@@ -285,6 +285,19 @@ task line numbers. You can just "use the force," so to speak, and manipulate you
 todo.txt using your memory of the tasks that are in there.
 </p>
 
+<p> You can do powerufl manipulations with regular expressions too, using ed's 
+concise search and replace syntax.  For example, running 
+</p>
+
+<pre>
+t ',s/@apple/@orange/g'
+</pre>
+
+<p>
+would change all the @apple tags in your todo list to @orange tags. Read more about `ed` commands 
+using <code>man ed</code>!
+</p>
+
 <p>
 What's the difference between <code>t 2d</code> and <code>t do 2</code>? The first command simply deletes a task.
 The second command moves it to the done.txt file and timestamps it with the date of
