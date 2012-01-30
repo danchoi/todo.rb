@@ -52,6 +52,10 @@ elsif command == 'revert' && args.empty?
   t.revert
 elsif command == 'diff' && args.empty?
   t.diff
+elsif command == 'pri' && args[0] =~ /^\d+$/
+  t.ed_command! "#{args[0]}s/$/!/\nm0"
+elsif command == 'depri' && args[0] =~ /^\d+$/
+  t.ed_command! "#{args[0]}s/!//"
 elsif command.nil?
   t.catn 
 else
