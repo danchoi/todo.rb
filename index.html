@@ -70,25 +70,18 @@ Trapani, and takes the idea further in the direction of the
 <a href="http://www.faqs.org/docs/artu/ch01s06.html">Unix philosophy</a>.
 </p>
 
-
-
 <p>
-
 Like <a href="http://wiki.43folders.com/index.php/ToDo.txt">Merlin Mann</a>, I
 keep todo lists in plain text files and used Vim to review and edit them.  
 But Vim, like every popular text editor, presents a <a
 href="http://books.google.com/books?id=RaPwX0sScf4C&lpg=PA93&ots=SNzsy-p8h6&dq=tenet%208%20avoid%20captive&pg=PA93#v=onepage&q&f=false">captive
-user interface</a> which removes you from the command line and the immediate
-context of whatever you were doing there.  Vim is also  more difficult to
-script than a standard, noninteractive Unix tool.
-
+user interface</a> which removes you from the command line 
+and is  also more difficult to script than a standard, noninteractive Unix tool.
 </p>
 
-<p> todo.rb is a todo list tool with an unobtrusive, noncaptive, Unix-style
-interface.  It leverages Unix filters to let you view your tasks by
-context or project. It uses <strong>ed</strong> under the hood to let you
-perform a wide range of edits on your todo.txt without leaving the command line.
-</p>
+<p>One notable thing about  todo.rb is that it uses <strong>ed</strong> under
+the hood to let you perform a wide range of edits on your todo.txt without
+leaving the command line and impairing scriptability. </p>
 
 <h2>Requires</h2>
 <p>Ruby 1.9</p>
