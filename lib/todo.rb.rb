@@ -2,7 +2,7 @@
 COLORIZER = File.join(File.dirname(__FILE__), 'colorizer.rb')
 HTML = File.join(File.dirname(__FILE__), 'html.rb')
 
-class Todo
+class TodoRb
 
   attr_accessor :todo_file, :done_file, :backup_file, :formatter
 
