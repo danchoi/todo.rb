@@ -55,26 +55,19 @@ simple todo app
 <h2>Install</h2>
 <pre>$ gem install todo.rb</pre>
 
-<h2>Instructions</h2>
+<h2>Basics</h2>
 
 <p>
-
-The full command name is <code>todo.rb</code>, but you'll probably want to
+The full command name is todo.rb, but you'll probably want to
 alias it to something shorter. Put something like this in your
-<code>~/.bash_profile</code> or <code>~/.bashrc</code>: 
-
+~/.bash_profile or ~/.bashrc: 
 </p>
 
 <pre>alias t=todo.rb</pre>
 
-<p>
-
-
-
+<p>todo.rb operates in the current working directory. It looks for a todo.txt
+and done.txt file, and creates them if they don't already exist.
 </p>
-
-
-
 
 <pre>
 $ t
@@ -82,16 +75,39 @@ Missing a todo.txt file. Creating.
 Missing a done.txt file. Creating.
 </pre>
 
+<p>
+You can start adding tasks like this. 
+</p>
+
 <pre>
 $ t @harvardsq buy some assam from tealuxe
 0a1
 > @harvardsq buy some assam from tealuxe
 </pre>
 
+<p>
+@harvardsq is a <strong>context tag</strong> for your task. A context tag usually indicates a
+location. The two lines you see after the command prompt is a diff showing the
+change you just made.
+</p>
+
+<p>
+To see the tasks we have accumulated so far, just press t.
+</p>
+
 <pre>
 $ t
      1  <span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
 </pre>
+
+<p>
+If you look in the file todo.txt, you'll see that all todo.rb is doing besides
+printing the file is adding line numbers and coloring the context tags.
+</p>
+
+<p>
+There is another type of tag you can use when you add tasks: a <strong>project tag</strong>. It looks like this:
+</p>
 
 <pre>
 $ t +opensource release todo.rb
@@ -99,23 +115,195 @@ $ t +opensource release todo.rb
 > +opensource release todo.rb
 </pre>
 
+<p>
+When you print the task list, you'll see that project tags and context tags are
+colored differently.  
+</p>
+
 <pre>
 $ t
      1	<span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
      2	<span style='color:#DC143C'>+opensource</span> release todo.rb
 </pre>
 
+<p>
+Let's add one more task to the @harvardsq context.
+</p>
 
 <pre>
-tag               priority     todo     done
------------------ -------- -------- --------
-<span style='color:red'>+kaja</span>                    1        2        0
-<span style='color:red'>+kindlefeeder</span>            0        1        0
-<span style='color:red'>+todo.rb</span>                 0        3        0
-<span style='color:cyan'>@cambridgeport</span>           1        2        0
-<span style='color:cyan'>@email</span>                   0        1        0
-<span style='color:cyan'>@harvardsq</span>               1        1        0
+$ t @harvardsq buy more moleskine notebooks
+2a3
+
+$ t
+     1	<span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
+     2	<span style='color:#DC143C'>+opensource</span> release todo.rb
+     3	<span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
 </pre>
+
+
+<p>
+This is how you <strong>reorder tasks</strong>:
+</p>
+
+
+<pre>
+$ t 3m0
+0a1
+> @harvardsq buy more moleskine notebooks
+3d3
+< @harvardsq buy more moleskine notebooks
+
+$ t
+     1	<span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+     2	<span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
+     3	<span style='color:#DC143C'>+opensource</span> release todo.rb
+</pre>
+
+<p>
+The 3m0 is an <strong>ed script</strong>. That's right, todo.rb delegates a lot
+of commands to ed. So if you wanted to delete the first task, you would use 1d.
+If you wanted to delete a range, you could use something like 1,2d. Just about
+any valid ed command sequence will be passed through to the ed command and
+performed on the todo.txt file.
+</p>
+
+<p>
+One thing to note is that if you want to insert text using a delegated ed
+command, you should use the following format. Put a space after the ed motion
+command, followed by the text to insert.  Put quotes around the text if it
+contains any characters you don't want interpreted by the shell.
+</p>
+
+<pre>
+$ t 3a "buy some fresh basil @traderjoes"
+</pre>
+
+<p>This would append the task after line 2.</p>
+
+<p>
+Now let's <strong>do</strong> some tasks.  This is how to mark tasks as done. 
+</p>
+
+<pre>
+$ t do 2
+2d1
+< @harvardsq buy some assam from tealuxe
+
+$ t do 1
+1d0
+< @harvardsq buy more moleskine notebooks
+
+$ t
+     1	<span style='color:#DC143C'>+opensource</span> release todo.rb
+     2  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
+</pre>
+
+<p>
+Done tasks are moved to the done.txt file and timestamped with the date of
+completion. You can display done tasks with the "done" command.
+</p>
+
+<pre>
+$ t done
+     1	2012-01-29 <span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
+     2	2012-01-29 <span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+</pre>
+
+<p>
+To undo a task, use "undo" along with the line number of the done item.
+</p>
+
+<pre>
+$ t undo 2
+1a2
+> @harvardsq buy more moleskine notebooks
+
+$ t
+     1	<span style='color:#DC143C'>+opensource</span> release todo.rb
+     2  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
+     3	<span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+</pre>
+
+<p>
+You can <strong>filter</strong> tasks by tag like this:
+</p>
+
+<pre>
+$ t @harvardsq
+     3  <span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+</pre>
+
+<p>
+You can also <strong>abbreviate tags</strong>. todo.rb will expand the
+abbreviated tag to the first tag it finds that matches the abbreviation.
+<p>
+
+<pre>
+$ t @h
+     3  <span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+</pre>
+
+You can list both incomplete and done tasks with the "all" command. You can
+pass a context or project tag to "all" to filter the list by that tag.
+Again, you can use abbrevation.
+</p>
+
+<pre>
+$ t all @h
+todo
+     2	<span style='color:#00FFFF'>@harvardsq</span> buy more moleskine notebooks
+
+done
+     1	2012-01-29 <span style='color:#00FFFF'>@harvardsq</span> buy some assam from tealuxe
+</pre>
+
+
+<p>
+There is one more way to highlight and filter items, and that is by flagging
+tasks as  <strong>high priority</strong>. A task is deemed to be high
+priority if it contains an <strong>exclamation mark</strong>:
+</p>
+
+<pre>
+$ t '3s/$/!/'
+3c3
+< @harvardsq buy more moleskine notebooks
+---
+> @harvardsq buy more moleskine notebooks!
+
+$ t
+     1  <span style='color:#DC143C'>+opensource</span> release todo.rb
+     2  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
+<span style='color:#FFFF00'>     3  </span><span style='color:#00FFFF'>@harvardsq</span><span style='color:#FFFF00'> buy more moleskine notebooks!</span>
+</pre>
+
+<p>If a task contains !!!, the item will actually flash. I'll spare you that
+demonstration. </p>
+
+
+<p>To filter the list to show just priority items, use 
+t ! or t ! followed by a tag or tag abbreviation:</p>
+
+<pre>
+$ t ! @h
+<span style='color:#FFFF00'>     3  </span><span style='color:#00FFFF'>@harvardsq</span><span style='color:#FFFF00'> buy more moleskine notebooks!</span>
+</pre>
+
+<p>To see a simple report of your tasks:</p>
+
+
+
+<pre>
+tag            priority     todo     done
+-------------- -------- -------- --------
+<span style='color:#DC143C'>+opensource</span>           0        1        0
+<span style='color:#00FFFF'>@harvardsq</span>            1        1        1
+<span style='color:#00FFFF'>@traderjoes</span>           0        1        0
+</pre>
+
+
+<h2>Extras</h2>
+
 
 
 <h2>Source</h2>
