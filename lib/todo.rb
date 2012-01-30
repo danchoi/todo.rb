@@ -103,6 +103,7 @@ END
 cat #{todo_file} | sed -n '#{range}p' | 
   awk '{print d " " $0}' "d=$(date +'%Y-%m-%d')" >> #{done_file}
 echo "#{range}d\nwq\n" | ed -s #{todo_file} 
+diff #{backup_file} #{todo_file}
 END
   end
 
@@ -113,6 +114,7 @@ END
 cat #{done_file} | sed -n '#{range}p' | 
   ruby -n -e  'puts $_.split(" ", 2)[1]'  >> #{todo_file}
 echo "#{range}d\nwq\n" | ed -s #{done_file} 
+diff #{backup_file} #{todo_file}
 END
   end
 
