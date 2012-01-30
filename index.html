@@ -313,11 +313,30 @@ revert command just swaps the two files.
 
 <p>
 todo.rb also lets you <strong>customize colors</strong>.  It will look for a colors.yml
-file in the current directory or in ~/.todo.rb/. The colors.yml file can specify custom
-default colors for 
+file in the current directory or in ~/.todo.rb/. The colors.yml file can specify 
+the color for high priority items, default colors for context and project tags,
+as well as special colors for particular tags.
 </p>
 
+<p>For example, this colors.yml</p>
 
+<pre>
+priority: fuchsia
+context: FF69B4
+project: 6A5ACD
+@harvardsq: DDAA00
+</pre>
+
+
+<p>
+would color the output like this:
+</p>
+
+<pre>
+     1  <span style='color:#6A5ACD'>+opensource</span> release todo.rb
+     2  buy fresh basil <span style='color:#FF0000'>@traderjoes</span>
+<span style='color:#FF00FF'>     3  </span><span style='color:#DDAA00'>@harvardsq</span><span style='color:#FF00FF'> buy more moleskine notebooks!</span>
+</pre>
 
 
 <h2>Source</h2>
