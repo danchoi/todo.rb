@@ -46,7 +46,7 @@ elsif command == 'do'
   t.mark_done! args[0]
 elsif command == 'undo' 
   t.mark_undone! args[0]
-elsif command == 'ls' && args.empty?
+elsif command == 'ps' && args.empty?
   t.report
 elsif command == 'revert' && args.empty?
   t.revert
