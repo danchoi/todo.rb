@@ -5,7 +5,7 @@ require 'todo.rb/version'
 
 Gem::Specification.new do |s|
   s.name        = "todo.rb"
-  s.version     = "TodoRb::Version
+  s.version     = TodoRb::Version
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.0'
 
