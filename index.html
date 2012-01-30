@@ -249,13 +249,20 @@ $ t do 2
 2d1
 < @harvardsq buy some assam from tealuxe
 
-$ t do 1
+$ t do /moleskine/
 1d0
 < @harvardsq buy more moleskine notebooks
 </pre>
 
 <p>
-Done tasks are moved to the done.txt file and timestamped with the date of
+You'll notice that in the second instance, we used a <strong>regular expression</strong> 
+instead of a line number. This is possible because we are farming out work to `ed`.
+Tasks can be identified with ed-style <strong>addressing</strong>.
+</p>
+
+<p>
+What's the difference between <code>t 2d</code> and <code>t do 2</code>? The first command simply deletes a task.
+The second command moves it to the done.txt file and timestamps it with the date of
 completion. You can display done tasks with the "done" command.
 </p>
 
@@ -324,7 +331,7 @@ top of the list.
 </p>
 
 <pre>
-$ t pri 1
+$ t pri /notebook/
 0a1
 > @harvardsq buy more moleskine notebooks!
 3d3
