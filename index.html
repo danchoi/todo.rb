@@ -89,6 +89,14 @@ alias it to something shorter. Put something like this in your
 
 <pre>alias t=todo.rb</pre>
 
+<p>
+This is a detailed guide to the program. You can type this to get help from the command line:
+</p>
+
+<pre>
+t -h
+</pre>
+
 <p>todo.rb operates in the current working directory. It looks for a todo.txt
 and done.txt file, and creates them if they don't already exist.
 </p>
@@ -309,20 +317,23 @@ done
 <p>
 There is one more way to highlight and filter items, and that is by flagging
 tasks as  <strong>high priority</strong>. A task is deemed to be high
-priority if it contains an <strong>exclamation mark</strong>:
+priority if it contains an <strong>exclamation mark</strong>.
+You can prioritize an action with the "pri" command and deprioritize it with the "depri" command.
+The "pri" command adds an exclamation mark to the end of the task text and moves it to the 
+top of the list.
 </p>
 
 <pre>
-$ t '3s/$/!/'
-3c3
-< @harvardsq buy more moleskine notebooks
----
+$ t pri 1
+0a1
 > @harvardsq buy more moleskine notebooks!
+3d3
+< @harvardsq buy more moleskine notebooks
 
 $ t
-     1  <span style='color:#DC143C'>+opensource</span> release todo.rb
-     2  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
-<span style='color:#FFFF00'>     3  </span><span style='color:#00FFFF'>@harvardsq</span><span style='color:#FFFF00'> buy more moleskine notebooks!</span>
+<span style='color:#FFFF00'>     1  </span><span style='color:#00FFFF'>@harvardsq</span><span style='color:#FFFF00'> buy more moleskine notebooks!</span>
+     2  <span style='color:#DC143C'>+opensource</span> release todo.rb
+     3  buy fresh basil <span style='color:#00FFFF'>@traderjoes</span>
 </pre>
 
 <p>If a task contains !!!, the item will actually flash. I'll spare you that
