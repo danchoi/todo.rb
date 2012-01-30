@@ -1,3 +1,3 @@
 source :rubygems
 gem 'highline'
-gem 'color'
+gem 'color-tools', '~> 1.3', require: 'color'

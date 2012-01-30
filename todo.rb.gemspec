@@ -4,8 +4,8 @@ $:.push File.expand_path("../lib", __FILE__)
 require 'todo'
 
 Gem::Specification.new do |s|
-  s.name        = "todo"
-  s.version     = "0.0.0"
+  s.name        = "todo.rb"
+  s.version     = "0.0.1"
   s.platform    = Gem::Platform::RUBY
   s.required_ruby_version = '>= 1.9.0'
 
@@ -23,4 +23,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'highline', '>= 1.6.11'
+  s.add_dependency 'color-tools', '~> 1.3'
 end
