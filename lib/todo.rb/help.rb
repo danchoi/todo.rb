@@ -1,6 +1,9 @@
 puts <<END
 
 todo.rb
+-------
+
+todo.rb is a command line todo list manager.
 
 The full guide is located at\nhttp://danchoi.github.com/todo.rb/
 
