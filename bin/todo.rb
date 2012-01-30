@@ -55,7 +55,7 @@ elsif command == 'diff' && args.empty?
 elsif command == 'pri' && args[0] =~ /^\d+$/
   t.ed_command! "#{args[0]}s/$/!/\nm0"
 elsif command == 'depri' && args[0] =~ /^\d+$/
-  t.ed_command! "#{args[0]}s/!//"
+  t.ed_command! "#{args[0]}s/!//g\nm/^[^!]*$/-1"
 elsif command.nil?
   t.catn 
 else
