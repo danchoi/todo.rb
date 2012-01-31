@@ -118,6 +118,16 @@ diff #{backup_file} #{todo_file}
 END
   end
 
+
+  def external_edit(range)
+    require 'tempfile'
+    f = Tempfile.new('todo.rb')
+    `sed -n '#{range}p' #{todo_file} > #{f.path}`
+    system("#{ENV['EDITOR']}  #{f.path}")
+    new_text = File.read(f.path).strip
+    ed_command! "#{range}c", new_text
+  end
+
   TAG_REGEX = /[@\+]\S+/
    
   def report

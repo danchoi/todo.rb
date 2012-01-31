@@ -14,12 +14,13 @@ The following assumes that `alias t=todo.rb` is in effect.
 
 A [tag] may be a @context or a +project. 
 
-And [address] can be a line number or a regular expression that matches the
-task.
+And [task address] can be a line number or a regular expression that matches
+the task.
 
 t [tag] [task text]     append a task with tag
 t                       show tasks
 t [ed command]          perform ed command on todo list
+t e [task address]      edit task at [task address] in external EDITOR
 t done                  show done tasks
 t do [task address]     move a task to the done.txt
 t undo [task address]   move a task from done.txt to todo.txt

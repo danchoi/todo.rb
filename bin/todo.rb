@@ -29,6 +29,7 @@ end
 
 command = args.shift
 has_args = !args.empty?
+rest_args = args.join(' ')
 
 tag = command && command[/^(@|\+)\S+$/,0]
 
@@ -57,6 +58,8 @@ elsif command == 'pri' && args[0]
   t.ed_command! "#{args[0]}s/$/ !/\nm0"
 elsif command == 'depri' && args[0] 
   t.ed_command! "#{args[0]}s/ *!//g\nm/^[^!]*$/-1"
+elsif command =~ /e(dit)?$/  
+  t.external_edit rest_args
 elsif command.nil?
   t.catn 
 else
