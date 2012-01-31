@@ -483,8 +483,9 @@ committing new changes to git, and pushing those changes upstream.</p>
 
 <pre>
 function ttgit()  {
+  pushd ~/todo 
   git pull
-  pushd ~/todo && t $@
+  t $@
   git commit -a -m "edit"  2> /dev/null
   git push
   popd
