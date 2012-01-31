@@ -33,7 +33,8 @@ has_args = !args.empty?
 tag = command && command[/^(@|\+)\S+$/,0]
 
 if tag && has_args
-  t.ed_command!('a', [TodoRb.expand_tag(tag)] + args)
+  c = args.join =~ /!/ ? '0i' : 'a'
+  t.ed_command!(c, [TodoRb.expand_tag(tag)] + args)
 elsif tag 
   t.filter TodoRb.expand_tag(tag)
 elsif command == 'done' && args[0] =~ /^(@|\+)/
