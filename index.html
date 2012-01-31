@@ -247,14 +247,17 @@ contains any characters you don't want interpreted by the shell.
 $ t 3a 'buy some fresh basil @traderjoes'
 </pre>
 
-<p> Remember, you do <strong>not</strong> have to use ed commands all the time.
-You can always open the todo.txt file and edit it directly in a more conventional
-text editor like Vim, Emacs, or TextEdit. You can also use Unix commands like
-<code>cat &gt;&gt; todo.txt</code> or <code>echo 'buy arugla @wholefoods' >> todo.txt</code> to add
-tasks.  You have many options, and the data format of the todo.txt file is so
-simple that there is almost no way you can accidentally corrupt it. But
-it's possible to overwrite or delete the file accidentally, so please keep it
-backed up or under version control.</p>
+<p>Sometimes you will want to edit a task you already created. For this, 
+it's convenient to use the "e" (for "edit") command:
+</p>
+
+<pre>
+$ t e 3
+</pre>
+
+<p>This will open the task at line 3 in the external editor defined by your
+EDITOR environment variable. Just perform your edit, save, and exit. todo.rb
+takes care of the rest.  </p>
 
 <p>
 The "do" command marks tasks as done. 
@@ -279,7 +282,9 @@ Here we used a <strong>regular expression</strong> instead of a line number to g
 This is possible because we are farming out work to `ed`.
 Tasks can be identified with ed-style <strong>addressing</strong>.
 So in the earlier example, instead of using <code>t 3m0</code>, we could have moved the task 
-with <code>t /notebook/m0</code>.
+with <code>t /notebook/m0</code>. Instead of invoking the external editor with <code>t e 3</code>,
+we could have used <code>t e /notebook/</code>.
+
 </p>
 
 <p>
@@ -292,10 +297,8 @@ todo.txt using your memory of the tasks that are in there.
 the word "deadline" in it:</p>
 
 <pre>
-t /exercise/m/deadline
+t /exercise/m/deadline/
 </pre>
-
-<p>The closing '/' is optional.</p>
 
 <p> You can do batch manipulations with regular expressions too, using ed's 
 concise search and replace syntax.  For example, running 
