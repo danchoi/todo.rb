@@ -61,7 +61,7 @@ elsif command == 'depri' && args[0]
 elsif command =~ /e(dit)?$/  
   t.external_edit rest_args
 elsif command.nil?
-  t.catn 
+  t.filter
 else
   t.ed_command! command, *args
 end

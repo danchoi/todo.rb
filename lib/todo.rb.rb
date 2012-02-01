@@ -66,12 +66,6 @@ END
     exec "diff #{backup_file} #{todo_file}"
   end
 
-  def catn(list_file = todo_file)
-    exec <<END
-cat -n #{list_file} | #{formatter}
-END
-  end
-
   def filter(context_or_project=nil, list_file=todo_file, no_exec=false)
     s = context_or_project
     # don't put /< before the grep arg
