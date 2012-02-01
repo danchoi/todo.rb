@@ -33,6 +33,9 @@ t report                show task report
 t all                   list all incomplete and done tasks
 t all [tag]             ditto, but filter by tag
 
+If the first argument is -n, where n is a number, the command is equivalent to
+
+    t [rest of args] | head -n
 
 Tag colors can be customized in colors.yml. It may look something like this.
 

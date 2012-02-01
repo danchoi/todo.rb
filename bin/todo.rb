@@ -23,8 +23,13 @@ t = TodoRb.new opts
 args = ARGV.dup
 
 if args.size <= 2 && args.delete('!')
-
+  # This is kind of a hack!
   exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | grep '!'"
+end
+
+if args[0] =~ /^-\d+$/ 
+  range = args.shift
+  exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | head #{range}"
 end
 
 command = args.shift
@@ -37,11 +42,11 @@ if tag && has_args
   c = args.join =~ /!/ ? '0i' : 'a'
   t.ed_command!(c, [TodoRb.expand_tag(tag)] + args)
 elsif tag 
-  t.filter TodoRb.expand_tag(tag)
+  t.filter tag:TodoRb.expand_tag(tag)
 elsif command == 'done' && args[0] =~ /^(@|\+)/
-  t.filter_done_file  TodoRb.expand_tag(args[0])
+  t.filter tag:TodoRb.expand_tag(args[0]), list: :done
 elsif command == 'done'
-  t.filter_done_file nil
+  t.filter list: :done
 elsif command == 'all' 
   t.list_all TodoRb.expand_tag(args[0])
 elsif command == 'do' 
