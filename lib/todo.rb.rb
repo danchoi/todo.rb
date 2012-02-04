@@ -66,33 +66,29 @@ END
     exec "diff #{backup_file} #{todo_file}"
   end
 
-  def catn(list_file = todo_file)
-    exec <<END
-cat -n #{list_file} | #{formatter}
-END
-  end
+  def filter(opts={})
+    defaults = {list_file: todo_file, no_exec: false}
+    if opts[:list]
+      opts[:list_file] = opts[:list] == :todo ? todo_file : done_file
+    end
+    opts = defaults.merge opts
+    tag = opts[:tag]
 
-  def filter(context_or_project=nil, list_file=todo_file, no_exec=false)
-    s = context_or_project
-    # don't put /< before the grep arg
-    grep_filter = s ? " | grep -i '#{s}\\>' " : ""
+    # note don't put /< before the grep arg
+    grep_filter = tag ? " | grep -i '#{tag}\\>' " : ""
     script = <<END
-cat -n #{list_file} #{grep_filter} | #{formatter} #{s ? "'#{s}'" : ''}
+cat -n #{opts[:list_file]} #{grep_filter} | #{formatter} #{tag ? "'#{tag}'" : ''}
 END
-    if no_exec
+    if opts[:no_exec] # just return for further processing
       script
     else
       exec(script)
     end
   end
 
-  def filter_done_file(t)
-    filter t, done_file
-  end
-
   def list_all tag=nil
-    a = filter tag, todo_file, true
-    b = filter tag, done_file, true
+    a = filter tag:tag, list_file:todo_file, no_exec:true
+    b = filter tag:tag, list_file:done_file, no_exec:true
     exec ["echo 'todo'", a, "echo 'done'", b].join("\n")
   end
 

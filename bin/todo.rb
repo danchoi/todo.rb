@@ -30,6 +30,11 @@ if args.size == 1 && args.delete('l')
   exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | less -R"
 end
 
+if args[0] =~ /^-\d+$/ 
+  range = args.shift
+  exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | head #{range}"
+end
+
 command = args.shift
 has_args = !args.empty?
 rest_args = args.join(' ')
@@ -40,11 +45,11 @@ if tag && has_args
   c = args.join =~ /!/ ? '0i' : 'a'
   t.ed_command!(c, [TodoRb.expand_tag(tag)] + args)
 elsif tag 
-  t.filter TodoRb.expand_tag(tag)
+  t.filter tag:TodoRb.expand_tag(tag)
 elsif command == 'done' && args[0] =~ /^(@|\+)/
-  t.filter_done_file  TodoRb.expand_tag(args[0])
+  t.filter tag:TodoRb.expand_tag(args[0]), list: :done
 elsif command == 'done'
-  t.filter_done_file nil
+  t.filter list: :done
 elsif command == 'all' 
   t.list_all TodoRb.expand_tag(args[0])
 elsif command == 'do' 
@@ -64,7 +69,7 @@ elsif command == 'depri' && args[0]
 elsif command =~ /e(dit)?$/  
   t.external_edit rest_args
 elsif command.nil?
-  t.catn 
+  t.filter
 else
   t.ed_command! command, *args
 end
