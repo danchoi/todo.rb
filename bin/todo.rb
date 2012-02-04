@@ -23,8 +23,11 @@ t = TodoRb.new opts
 args = ARGV.dup
 
 if args.size <= 2 && args.delete('!')
-
   exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | grep '!'"
+end
+
+if args.size == 1 && args.delete('l')
+  exec "#{File.expand_path(__FILE__)} #{args.join(' ')} | less -R"
 end
 
 command = args.shift

@@ -21,6 +21,8 @@ t [tag] [task text]     append a task with tag
 t                       show tasks
 t [ed command]          perform ed command on todo list
 t e [task address]      edit task at [task address] in external EDITOR
+t e                     edit entire task list in external EDITOR
+t l                     pipe entire list to `less -R`
 t done                  show done tasks
 t do [task address]     move a task to the done.txt
 t undo [task address]   move a task from done.txt to todo.txt
