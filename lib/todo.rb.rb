@@ -125,7 +125,12 @@ END
     `sed -n '#{range}p' #{todo_file} > #{f.path}`
     system("#{ENV['EDITOR']}  #{f.path}")
     new_text = File.read(f.path).strip
-    ed_command! "#{range}c", new_text
+    range.inspect
+    if range != ""
+      ed_command! "#{range}c", new_text
+    else
+      `cp #{f.path} #{todo_file}`
+    end
   end
 
   TAG_REGEX = /[@\+]\S+/
