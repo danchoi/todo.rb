@@ -142,14 +142,14 @@ END
         end
       }; report_data
     }
-    longest_tag_len = report_data.keys.reduce(0) {|max, key| [max, key.length].max} + 3
-    placeholders = "%-#{longest_tag_len}s %8s %8s %8s" 
-    headers = %w(tag priority todo done)
+    longest_tag_len = report_data.keys.reduce(0) {|max, key| [max, key.length].max} + 1
+    placeholders = "%#{longest_tag_len}s %5s %5s %5s" 
+    headers = %w(tag pri todo done)
     IO.popen(formatter, 'w') {|pipe|
       pipe.puts(placeholders % headers)
       pipe.puts placeholders.scan(/\d+/).map {|a|'-'*(a.to_i)}.join(' ')
       report_data.keys.sort_by {|k| k.downcase}.each {|k|
-        pipe.puts placeholders % [k, report_data[k][:priority], report_data[k][:todo], report_data[k][:done]]
+        pipe.puts placeholders % [k, report_data[k][:priority], report_data[k][:todo], report_data[k][:done]].map {|x| x == 0 ? ' ' : x}
       }
     }
   end
